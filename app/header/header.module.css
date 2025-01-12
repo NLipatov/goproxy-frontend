@@ -1,12 +1,12 @@
-header {
+.header {
     position: fixed;
     top: 0;
     width: 100%;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    background-color: rgba(17, 24, 39, 0.85); /* Увеличил непрозрачность для более чёткого фона */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Более мягкая граница */
+    background-color: rgba(255, 255, 255, 0);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Сделал тень глубже */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     padding: 1rem;
 }

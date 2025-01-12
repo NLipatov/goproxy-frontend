@@ -5,25 +5,25 @@
     -webkit-background-clip: text;
     color: transparent;
     animation: gradient-move 5s ease infinite;
-    text-shadow: 0px 0px 5px rgba(34, 197, 94, 0.5);
+    text-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
 }
 
 
 @keyframes gradient-move {
     0% {
-        background-position: 0% 50%;
+        background-position: 0 50%;
     }
     50% {
         background-position: 100% 50%;
     }
     100% {
-        background-position: 0% 50%;
+        background-position: 0 50%;
     }
 }
 
 .animated-text {
-    font-size: 1.25rem;
-    text-shadow: 0px 0px 4px rgba(34, 197, 94, 0.5);
+    line-height: 5rem;
+    text-shadow: 0 0 4px rgba(34, 197, 94, 0.5);
 }
 
 

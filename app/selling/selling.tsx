@@ -27,18 +27,18 @@ export function Selling() {
                 Level up your online security
             </p>
 
-            <h1 className={`text-4xl font-bold mb-6 ${sellingSectionStyles["animated-gradient"]}`}>
+            <h1 className={`text-5xl font-bold mb-6 ${sellingSectionStyles["animated-gradient"]}`}>
                 Use proxy that:
             </h1>
-            <div className="relative h-16 w-full overflow-hidden flex items-center justify-center">
+            <div className="relative w-full h-40 overflow-hidden flex items-center justify-center">
                 <AnimatePresence>
                     <motion.div
                         key={currentIndex}
-                        initial={{ y: "10vh" }}
+                        initial={{ y: "10rem" }}
                         animate={{ y: "0" }}
-                        exit={{ y: "-10vh" }}
+                        exit={{ y: "-10rem" }}
                         transition={{ duration: 0.8 }}
-                        className={`${sellingSectionStyles["animated-text"]} absolute w-full text-2xl font-semibold text-green-500 text-center`}
+                        className={`${sellingSectionStyles["animated-text"]} absolute w-full text-5xl font-semibold text-green-500 text-center`}
                     >
                         {messages[currentIndex]}
                     </motion.div>

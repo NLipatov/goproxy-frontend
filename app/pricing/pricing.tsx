@@ -40,7 +40,7 @@ const pricingPlans = [
 
 export function Pricing() {
     return (
-        <section id="Pricing" className={`${pricingStyles["section-pricing"]} py-16`}>
+        <section id="Pricing" className={`${pricingStyles["section-pricing"]} py-16 scroll-mt-4`}>
             <div className="container mx-auto text-center mb-12">
                 <h2 className="text-4xl font-bold text-white mb-4">Pricing</h2>
                 <p className="text-gray-400">
