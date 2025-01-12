@@ -51,7 +51,7 @@ export function Pricing() {
                 {pricingPlans.map((plan, index) => (
                     <div
                         key={index}
-                        className="bg-gray-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300"
+                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300"
                     >
                         <div>
                             <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
