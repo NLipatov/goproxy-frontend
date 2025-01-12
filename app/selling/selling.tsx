@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import sellingSectionStyles from "./selling-section.module.css"
+import sellingSectionStyles from "./selling.module.css"
 
 const messages = [
     "values you",
@@ -11,7 +11,7 @@ const messages = [
     "you can rely on",
 ];
 
-export function SellingSection() {
+export function Selling() {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {

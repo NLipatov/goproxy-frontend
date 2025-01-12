@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { SellingSection } from "~/selling-section/selling-section";
+import { Selling } from "~/selling/selling";
 import headerStyles from "./header.module.css";
+import {Pricing} from "~/pricing/pricing";
 
 export function Header() {
     return (
@@ -38,7 +39,8 @@ export function Header() {
 
                 </div>
             </header>
-            <SellingSection />
+            <Selling />
+            <Pricing />
         </div>
     );
 }
