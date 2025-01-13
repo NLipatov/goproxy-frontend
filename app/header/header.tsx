@@ -1,6 +1,7 @@
 import { Selling } from "~/selling/selling";
 import headerStyles from "./header.module.css";
 import {Pricing} from "~/pricing/pricing";
+import {FAQ} from "~/faq/faq"
 
 export function Header() {
     return (
@@ -39,6 +40,7 @@ export function Header() {
             </header>
             <Selling />
             <Pricing />
+            <FAQ />
         </div>
     );
 }

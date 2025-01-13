@@ -2,41 +2,45 @@ import pricingStyles from "./pricing.module.css"
 
 const pricingPlans = [
     {
-        "name": "Free",
-        "description": "Start exploring secure and private browsing for free.",
-        "currency": "$",
-        "price": "0",
-        "period": "/day",
-        "features": [
+        name: "Free",
+        description: "Start exploring secure and private browsing for free.",
+        currency: "$",
+        price: "0",
+        period: "/day",
+        features: [
             "Limited bandwidth (300MB/day)",
-            "Unlimited connection speed",
-            "No activity logging"
-        ]
-    },
-    {
-        "name": "Plus",
-        "description": "Advanced features for everyday secure browsing.",
-        "currency": "$",
-        "price": "5",
-        "period": "/month",
-        "features": [
-            "Unlimited bandwidth",
-            "Unlimited connection speed",
+            "Up to 1 Gbps connection speed",
+            "Supports up to 25 simultaneous connections",
             "No activity logging",
+            "Blocked for 30 seconds upon exceeding rate limits"
         ]
     },
     {
-        "name": "Pro",
-        "description": "Ultimate performance and security for professionals.",
-        "currency": "$",
-        "price": "45",
-        "period": "/year",
-        "features": [
-            "Everything from Plus, but 25% cheaper"
+        name: "Plus",
+        description: "Advanced features for everyday secure browsing.",
+        currency: "$",
+        price: "5",
+        period: "/month",
+        features: [
+            "Unlimited bandwidth",
+            "Up to 1 Gbps connection speed",
+            "Supports up to 25 simultaneous connections",
+            "No activity logging",
+            "Blocked for 30 seconds upon exceeding rate limits"
+        ]
+    },
+    {
+        name: "Pro",
+        description: "Ultimate performance and security for professionals.",
+        currency: "$",
+        price: "45",
+        period: "/year",
+        features: [
+            "Includes everything in Plus",
+            "25% cheaper than Plus"
         ]
     },
 ];
-
 
 export function Pricing() {
     return (
