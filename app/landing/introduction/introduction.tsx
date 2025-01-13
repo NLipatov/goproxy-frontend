@@ -1,17 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import sellingSectionStyles from "./selling.module.css"
+import sellingSectionStyles from "./introduction.module.css"
 
 const messages = [
     "values you",
     "cares about your privacy",
-    "not selling your online activity data",
+    "not introduction your online activity data",
     "not tracking your online activity",
     "not hiding its source code",
     "you can rely on",
 ];
 
-export function Selling() {
+export function Introduction() {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {

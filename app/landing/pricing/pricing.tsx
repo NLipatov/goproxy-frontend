@@ -10,7 +10,7 @@ const pricingPlans = [
         features: [
             "Limited bandwidth (300MB/day)",
             "Up to 1 Gbps connection speed",
-            "Supports up to 25 simultaneous connections",
+            "Up to 25 simultaneous connections",
             "No activity logging",
             "Blocked for 30 seconds upon exceeding rate limits"
         ]
@@ -24,7 +24,7 @@ const pricingPlans = [
         features: [
             "Unlimited bandwidth",
             "Up to 1 Gbps connection speed",
-            "Supports up to 25 simultaneous connections",
+            "Up to 25 simultaneous connections",
             "No activity logging",
             "Blocked for 30 seconds upon exceeding rate limits"
         ]

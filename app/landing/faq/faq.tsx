@@ -7,6 +7,11 @@ const faqData = [
             "ηProxy is a secure and open-source HTTP proxy designed to protect your online privacy.",
     },
     {
+        question: "Why should I trust your commitment to data protection?",
+        answer:
+            "Don't trust—verify. Our source code is open because we have nothing to hide from our users",
+    },
+    {
         question: "How does ηProxy protect my data?",
         answer:
             "We don't track your activity, don't log your data, and our source code is open for review to ensure transparency.",
@@ -14,7 +19,7 @@ const faqData = [
     {
         question: "What are the benefits of using ηProxy?",
         answer:
-            "ηProxy provides fast, secure, and reliable connections with no hidden tracking or data selling.",
+            "ηProxy provides fast, secure, and reliable connections with no hidden tracking or data introduction.",
     },
     {
         question: "Is there a free plan available?",

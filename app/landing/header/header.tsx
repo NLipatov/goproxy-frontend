@@ -1,7 +1,5 @@
-import { Selling } from "~/selling/selling";
 import headerStyles from "./header.module.css";
-import {Pricing} from "~/pricing/pricing";
-import {FAQ} from "~/faq/faq"
+import { FaGithub } from "react-icons/fa";
 
 export function Header() {
     return (
@@ -25,22 +23,25 @@ export function Header() {
                         >
                             FAQ
                         </a>
+                        <a
+                            href="https://github.com/NLipatov/goproxy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-300 hover:text-green-500 flex items-center"
+                        >
+                            <FaGithub className="mr-1 text-2xl" /> GitHub
+                        </a>
                     </nav>
 
 
                     <a
                         href={"#Login"}
-                        className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300"
-                    >
+                        className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
                         Log in
                     </a>
 
-
                 </div>
             </header>
-            <Selling />
-            <Pricing />
-            <FAQ />
         </div>
     );
 }
