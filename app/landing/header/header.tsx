@@ -35,7 +35,7 @@ export function Header() {
 
 
                     <a
-                        href={"#Login"}
+                        href={"http://localhost:3030/auth/login"}
                         className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
                         Log in
                     </a>
