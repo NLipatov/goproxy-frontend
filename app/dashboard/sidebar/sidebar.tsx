@@ -18,7 +18,7 @@ interface SidebarProps {
 }
 
 const sections = [
-    { name: "Start", tabs: ["Google Chrome", "Firefox"], icon: FaRocket },
+    { name: "Start", tabs: ["Google Chrome", "Firefox", "iOS", "Android", "Linux", "MacOS", "Windows"], icon: FaRocket },
     { name: "Proxy", tabs: ["Locations", "Settings"], icon: FaServer },
     { name: "Account", tabs: ["Billing", "Settings"], icon: FaUser },
     { name: "Support", tabs: ["Help Center", "Contact Us"], icon: FaQuestionCircle },
