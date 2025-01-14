@@ -3,8 +3,8 @@ import {Landing} from "~/landing/landing";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Proxy" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "ηProxy" },
+    { name: "description", content: "Welcome to ηProxy!" },
   ];
 }
 
