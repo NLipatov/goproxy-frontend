@@ -1,10 +1,35 @@
+import React, { useEffect, useState } from "react";
 import headerStyles from "./header.module.css";
 import { FaGithub } from "react-icons/fa";
 
 export function Header() {
+    const [user, setUser] = useState<{ name: string; picture: string } | null>(null);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await fetch("http://localhost:3030/auth/user-info", {
+                    method: "GET",
+                    credentials: "include", // Enable cookies
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUser(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch user info:", error);
+            }
+        };
+
+        fetchUserInfo().then(r => r);
+    }, []);
+
     return (
         <div>
-            <header className={`${headerStyles["header"]} fixed top-0 w-full backdrop-blur-md bg-black/50 z-50 shadow-md`}>
+            <header
+                className={`${headerStyles["header"]} fixed top-0 w-full backdrop-blur-md bg-black/50 z-50 shadow-md`}
+            >
                 <div className="container mx-auto flex justify-between items-center">
                     <div className="flex items-center">
                         <span className="text-white text-xl font-semibold">ηProxy</span>
@@ -33,13 +58,26 @@ export function Header() {
                         </a>
                     </nav>
 
-
-                    <a
-                        href={"http://localhost:3030/auth/login"}
-                        className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
-                        Log in
-                    </a>
-
+                    {user ? (
+                        <a
+                            href="/dashboard"
+                            className="flex items-center cursor-pointer hover:opacity-80"
+                        >
+                            <img
+                                src={user.picture}
+                                alt="profile picture"
+                                className="rounded-full w-8 h-8 mr-2"
+                            />
+                            <span className="text-white">{user.name}</span>
+                        </a>
+                    ) : (
+                        <a
+                            href={"http://localhost:3030/auth/login"}
+                            className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300"
+                        >
+                            Log in
+                        </a>
+                    )}
                 </div>
             </header>
         </div>
