@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     FaBars,
     FaServer,
@@ -8,40 +8,44 @@ import {
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
 
+interface SidebarProps {
+    isCollapsed: boolean;
+    setIsCollapsed: (value: boolean) => void;
+    activeSection: string;
+    setActiveSection: (value: string) => void;
+    activeTab: string;
+    setActiveTab: (value: string) => void;
+}
+
 const sections = [
-    { name: "Start", tabs: [
-        "Google Chrome",
-        "Firefox",
-        "iOS",
-        "Android",
-        "Windows",
-        "Linux",
-        "MacOS" ], icon: FaRocket },
+    { name: "Start", tabs: ["Google Chrome", "Firefox"], icon: FaRocket },
     { name: "Proxy", tabs: ["Locations", "Settings"], icon: FaServer },
     { name: "Account", tabs: ["Billing", "Settings"], icon: FaUser },
     { name: "Support", tabs: ["Help Center", "Contact Us"], icon: FaQuestionCircle },
 ];
 
-export function Sidebar() {
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeSection, setActiveSection] = useState("Proxy");
-    const [activeTab, setActiveTab] = useState("Available Proxies");
-
+export function Sidebar({
+                            isCollapsed,
+                            setIsCollapsed,
+                            activeSection,
+                            setActiveSection,
+                            activeTab,
+                            setActiveTab,
+                        }: SidebarProps) {
     return (
         <aside
             className={`fixed left-0 top-0 h-full ${
                 isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
             }`}
         >
-            <div className={`sidebar-header ${sidebarStyles["sidebar-header"]}
-            ${
-                isCollapsed ? sidebarStyles["sidebar-header-collapsed"] : sidebarStyles["sidebar-header"]
+            <div className={`p-4 flex items-center justify-between border-b border-gray-700 ${
+                isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
             }`}>
                 {!isCollapsed && (
                     <h1 className="text-2xl font-bold text-white">ηProxy</h1>
                 )}
                 <button
-                    className={`${sidebarStyles["collapse-button"]}`}
+                    className="text-gray-400 hover:text-green-500 transition-all"
                     onClick={() => setIsCollapsed(!isCollapsed)}
                 >
                     <FaBars className="text-2xl" />

@@ -1,20 +1,22 @@
 .sidebar {
     width: 16rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(32, 38, 41, 0.9));
+    justify-content: space-between;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .sidebar-collapsed {
-    width: 5rem;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    width: 4rem;
+    justify-content: center;
+    justify-items: center;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
 }
 
 .bg-active {

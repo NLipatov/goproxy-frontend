@@ -1,5 +1,20 @@
 .dashboard {
     background: linear-gradient(180deg, #000000, #202629);
-    width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.main {
+    flex-grow: 1;
+    padding: 1.5rem;
+    transition: margin-left 0.1s ease;
+}
+
+.main-collapsed {
+    margin-left: 5rem;
+}
+
+.main-expanded {
+    margin-left: 16rem;
 }
