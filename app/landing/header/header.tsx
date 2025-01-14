@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import headerStyles from "./header.module.css";
 import { FaGithub } from "react-icons/fa";
+import {AUTH_API_BASE_URL} from "../../../constants";
 
 export function Header() {
     const [user, setUser] = useState<{ name: string; picture: string } | null>(null);
@@ -8,7 +9,7 @@ export function Header() {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await fetch("http://localhost:3030/auth/user-info", {
+                const response = await fetch(`${AUTH_API_BASE_URL}/auth/user-info`, {
                     method: "GET",
                     credentials: "include", // Enable cookies
                 });
@@ -72,7 +73,7 @@ export function Header() {
                         </a>
                     ) : (
                         <a
-                            href={"http://localhost:3030/auth/login"}
+                            href={`${AUTH_API_BASE_URL}/auth/login`}
                             className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300"
                         >
                             Log in
