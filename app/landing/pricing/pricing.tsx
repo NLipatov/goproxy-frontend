@@ -80,7 +80,6 @@ export function Pricing() {
                             </ul>
                         </div>
 
-                        {/* Кнопка */}
                         <button className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
                             {plan.name === "Free" ? "Get Free" : `Get ${plan.name}`}
                         </button>

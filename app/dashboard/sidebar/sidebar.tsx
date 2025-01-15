@@ -7,6 +7,7 @@ import {
     FaQuestionCircle,
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
+import {Credentials} from "~/dashboard/sidebar/Sections/Proxy/credentials";
 
 interface SidebarProps {
     isCollapsed: boolean;
@@ -18,10 +19,37 @@ interface SidebarProps {
 }
 
 const sections = [
-    { name: "Start", tabs: ["Google Chrome", "Firefox", "iOS", "Android", "Linux", "MacOS", "Windows"], icon: FaRocket },
-    { name: "Proxy", tabs: ["Locations", "Settings"], icon: FaServer },
-    { name: "Account", tabs: ["Billing", "Settings"], icon: FaUser },
-    { name: "Support", tabs: ["Help Center", "Contact Us"], icon: FaQuestionCircle },
+    {
+        name: "Start",
+        tabs: [
+            { name: "Google Chrome", component: () => <div>Google Chrome Settings</div> },
+            { name: "Firefox", component: () => <div>Firefox Settings</div> },
+        ],
+        icon: FaRocket,
+    },
+    {
+        name: "Proxy",
+        tabs: [
+            { name: "Credentials", component: () => <Credentials/>},
+        ],
+        icon: FaServer,
+    },
+    {
+        name: "Account",
+        tabs: [
+            { name: "Billing", component: () => <div>Billing Details</div> },
+            { name: "Available", component: () => <div>Account Settings</div> },
+        ],
+        icon: FaUser,
+    },
+    {
+        name: "Support",
+        tabs: [
+            { name: "Help Center", component: () => <div>Help Center Content</div> },
+            { name: "Contact Us", component: () => <div>Contact Us Content</div> },
+        ],
+        icon: FaQuestionCircle,
+    },
 ];
 
 export function Sidebar({
@@ -32,15 +60,18 @@ export function Sidebar({
                             activeTab,
                             setActiveTab,
                         }: SidebarProps) {
+
     return (
         <aside
             className={`fixed left-0 top-0 h-full ${
                 isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
             }`}
         >
-            <div className={`p-4 flex items-center justify-between border-b border-gray-700 ${
-                isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
-            }`}>
+            <div
+                className={`p-4 flex items-center justify-between border-b border-gray-700 ${
+                    isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
+                }`}
+            >
                 {!isCollapsed && (
                     <h1 className="text-2xl font-bold text-white">ηProxy</h1>
                 )}
@@ -63,7 +94,7 @@ export function Sidebar({
                             } transition-all duration-300`}
                             onClick={() => {
                                 setActiveSection(section.name);
-                                setActiveTab(section.tabs[0]);
+                                setActiveTab(section.tabs[0].name);
                             }}
                         >
                             <section.icon className="text-xl" />
@@ -76,15 +107,15 @@ export function Sidebar({
                             <ul className="mt-2 space-y-2 pl-8">
                                 {section.tabs.map((tab) => (
                                     <li
-                                        key={tab}
+                                        key={tab.name}
                                         className={`cursor-pointer ${
-                                            activeTab === tab
+                                            activeTab === tab.name
                                                 ? "text-green-400 font-semibold"
                                                 : "text-gray-500"
                                         } hover:text-green-500 transition-all`}
-                                        onClick={() => setActiveTab(tab)}
+                                        onClick={() => setActiveTab(tab.name)}
                                     >
-                                        {tab}
+                                        {tab.name}
                                     </li>
                                 ))}
                             </ul>
