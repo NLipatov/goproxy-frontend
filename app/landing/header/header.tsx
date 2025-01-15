@@ -8,22 +8,20 @@ export function Header() {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            try {
-                const response = await fetch(`${AUTH_API_BASE_URL}/auth/user-info`, {
-                    method: "GET",
-                    credentials: "include", // Enable cookies
-                });
+            const response = await fetch(`${AUTH_API_BASE_URL}/auth/user-info`, {
+                method: "GET",
+                credentials: "include",
+            });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data);
-                }
-            } catch (error) {
-                console.error("Failed to fetch user info:", error);
+            if (response.ok) {
+                const data = await response.json();
+                setUser(data);
             }
         };
 
-        fetchUserInfo().then(r => r);
+        fetchUserInfo()
+            .then(() => console.log("User info fetched successfully"))
+            .catch((error) => console.error("Error fetching user info:", error));
     }, []);
 
     return (
