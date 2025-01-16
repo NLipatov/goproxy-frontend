@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
 import {Credentials} from "~/dashboard/sidebar/Sections/Proxy/credentials";
+import {Plans} from "~/dashboard/sidebar/Sections/Proxy/plans";
 
 interface SidebarProps {
     isCollapsed: boolean;
@@ -30,6 +31,7 @@ const sections = [
     {
         name: "Proxy",
         tabs: [
+            { name: "Plans", component: () => <Plans/> },
             { name: "Credentials", component: () => <Credentials/>},
         ],
         icon: FaServer,

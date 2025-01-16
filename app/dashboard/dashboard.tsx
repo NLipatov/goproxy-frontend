@@ -1,7 +1,8 @@
 import { Sidebar } from "./sidebar/sidebar";
 import dashboardStyles from "./dashboard.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Credentials } from "./sidebar/Sections/Proxy/credentials";
+import {Plans} from "./sidebar/Sections/Proxy/plans"
 
 export function Dashboard() {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -16,6 +17,8 @@ export function Dashboard() {
                 </div>
             ),
             Credentials: <Credentials />,
+            Plans: <Plans />,
+
         },
         Account: {
             Billing: (
