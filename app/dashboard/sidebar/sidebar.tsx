@@ -7,8 +7,8 @@ import {
     FaQuestionCircle,
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
-import {Credentials} from "~/dashboard/sidebar/Sections/Proxy/credentials";
-import {Plans} from "~/dashboard/sidebar/Sections/Proxy/plans";
+import {Credentials} from "~/dashboard/sidebar/sections/proxy/credentials";
+import {Plans} from "~/dashboard/sidebar/sections/proxy/plans/plans";
 
 interface SidebarProps {
     isCollapsed: boolean;

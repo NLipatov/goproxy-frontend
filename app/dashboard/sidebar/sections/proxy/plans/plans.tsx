@@ -1,71 +1,25 @@
-import React, { useEffect, useState } from "react";
-import useWebSocket from "react-use-websocket";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-icons";
-import { AUTH_API_LOGIN_URL, PLAN_WS_URL } from "../../../../../constants";
-import { type PlanResponse } from "~/dto/apiResponse";
+import { usePlan } from "./hooks/usePlan";
+
+const formatBytes = (bytes: number) => {
+    const units = ["Bytes", "KB", "MB", "GB", "TB"];
+    let i = 0;
+    while (bytes >= 1024 && i < units.length - 1) {
+        bytes /= 1024;
+        i++;
+    }
+    return { value: bytes.toFixed(2), unit: units[i] };
+};
+
+const calculateProgress = (used: number, total: number) => {
+    if (total === 0) return "0.00";
+    return Math.min((used / total) * 100, 100).toFixed(2);
+};
 
 export function Plans() {
-    const [currentPlan, setCurrentPlan] = useState<PlanResponse | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [lastReceived, setLastReceived] = useState<Date | null>(null);
-
-    const { lastMessage } = useWebSocket(PLAN_WS_URL, {
-        shouldReconnect: () => true,
-        reconnectAttempts: 10,
-        reconnectInterval: 5000,
-    });
-
-    const calculateProgress = (used: number, total: number) => {
-        return Math.min((used / total) * 100, 100).toFixed(2);
-    };
-
-    useEffect(() => {
-        if (lastMessage !== null) {
-            try {
-                const data = JSON.parse(lastMessage.data);
-
-                if (data.errorCode === 401) {
-                    window.location.href = AUTH_API_LOGIN_URL
-                    return;
-                }
-
-                if (data.error) {
-                    setError(data.error);
-                } else {
-                    setError(null);
-                    setCurrentPlan(data);
-                }
-                setLastReceived(new Date());
-            } catch (err) {
-                console.error("Failed to parse WebSocket message:", err);
-                setError("Failed to parse WebSocket message.");
-                setLastReceived(new Date());
-            }
-        }
-    }, [lastMessage]);
-
-    const getStatus = () => {
-        if (error) return "error";
-        if (lastReceived) {
-            const now = new Date();
-            const diff = (now.getTime() - lastReceived.getTime()) / 1000;
-            if (diff <= 15) return "active";
-        }
-        return "idle";
-    };
-
-    const status = getStatus();
-
-    const formatBytes = (bytes: number) => {
-        const units = ["Bytes", "KB", "MB", "GB", "TB"];
-        let i = 0;
-        while (bytes >= 1024 && i < units.length - 1) {
-            bytes /= 1024;
-            i++;
-        }
-        return { value: bytes.toFixed(2), unit: units[i] };
-    };
+    const { currentPlan, error, status } = usePlan();
 
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-6">

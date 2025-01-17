@@ -1,8 +1,8 @@
 import { Sidebar } from "./sidebar/sidebar";
 import dashboardStyles from "./dashboard.module.css";
 import React, { useState } from "react";
-import { Credentials } from "./sidebar/Sections/Proxy/credentials";
-import {Plans} from "./sidebar/Sections/Proxy/plans"
+import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
+import {Plans} from "~/dashboard/sidebar/sections/proxy/plans/plans"
 
 export function Dashboard() {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
