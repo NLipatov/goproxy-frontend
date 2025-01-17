@@ -1,18 +1,15 @@
 import React from "react";
 import {
-    FaBars,
     FaServer,
     FaUser,
     FaRocket,
     FaQuestionCircle,
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
-import {Credentials} from "~/dashboard/sidebar/sections/proxy/credentials";
-import {Plans} from "~/dashboard/sidebar/sections/proxy/plans/plans";
+import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
+import { Plans } from "~/dashboard/sidebar/sections/proxy/plans/plans";
 
 interface SidebarProps {
-    isCollapsed: boolean;
-    setIsCollapsed: (value: boolean) => void;
     activeSection: string;
     setActiveSection: (value: string) => void;
     activeTab: string;
@@ -31,8 +28,8 @@ const sections = [
     {
         name: "Proxy",
         tabs: [
-            { name: "Plans", component: () => <Plans/> },
-            { name: "Credentials", component: () => <Credentials/>},
+            { name: "Plans", component: () => <Plans /> },
+            { name: "Credentials", component: () => <Credentials /> },
         ],
         icon: FaServer,
     },
@@ -55,34 +52,15 @@ const sections = [
 ];
 
 export function Sidebar({
-                            isCollapsed,
-                            setIsCollapsed,
                             activeSection,
                             setActiveSection,
                             activeTab,
                             setActiveTab,
                         }: SidebarProps) {
-
     return (
-        <aside
-            className={`fixed left-0 top-0 h-full ${
-                isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
-            }`}
-        >
-            <div
-                className={`p-4 flex items-center justify-between border-b border-gray-700 ${
-                    isCollapsed ? sidebarStyles["sidebar-collapsed"] : sidebarStyles["sidebar"]
-                }`}
-            >
-                {!isCollapsed && (
-                    <h1 className="text-2xl font-bold text-white">ηProxy</h1>
-                )}
-                <button
-                    className="text-gray-400 hover:text-green-500 transition-all"
-                    onClick={() => setIsCollapsed(!isCollapsed)}
-                >
-                    <FaBars className="text-2xl" />
-                </button>
+        <aside className={`fixed left-0 top-0 h-full ${sidebarStyles["sidebar"]}`}>
+            <div className={`p-4 flex items-center border-b border-gray-700`}>
+                <h1 className="text-2xl font-bold text-white">ηProxy</h1>
             </div>
 
             <div className="p-4 space-y-4">
@@ -100,12 +78,10 @@ export function Sidebar({
                             }}
                         >
                             <section.icon className="text-xl" />
-                            {!isCollapsed && (
-                                <span className="ml-3 font-medium">{section.name}</span>
-                            )}
+                            <span className="ml-3 font-medium">{section.name}</span>
                         </div>
 
-                        {!isCollapsed && activeSection === section.name && (
+                        {activeSection === section.name && (
                             <ul className="mt-2 space-y-2 pl-8">
                                 {section.tabs.map((tab) => (
                                     <li
