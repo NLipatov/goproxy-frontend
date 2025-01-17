@@ -1,35 +1,51 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-icons";
 
 export function Plans() {
     const [currentPlan, setCurrentPlan] = useState<Plan | null>(null);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [lastReceived, setLastReceived] = useState<Date | null>(null);
+
+    const SOCKET_URL = "ws://localhost:3031/ws";
+
+    const { lastMessage, readyState, getWebSocket } = useWebSocket(SOCKET_URL, {
+        shouldReconnect: (closeEvent) => true,
+        reconnectAttempts: 10,
+        reconnectInterval: 5000,
+    });
 
     useEffect(() => {
-        const plansInfoSocket = new WebSocket("ws://localhost:3031/ws")
-        plansInfoSocket.addEventListener("message", event => handleMessage(event));
-    }, [])
-
-    const handleMessage = (event : MessageEvent<any>) => {
-        try {
-            const data = JSON.parse(event.data);
-            if (data.error) {
-                console.error("Error from server:", data.error);
-                setError(data.error);
-            } else {
-                setError(null);
-                setCurrentPlan(data.plan);
-                console.log("Received data:", JSON.stringify(data));
+        if (lastMessage !== null) {
+            try {
+                const data = JSON.parse(lastMessage.data);
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    setError(null);
+                    setCurrentPlan(data.plan);
+                }
+                setLastReceived(new Date());
+            } catch (err) {
+                console.error("Failed to parse WebSocket message:", err);
+                setError("Failed to parse WebSocket message.");
+                setLastReceived(new Date());
             }
-        } catch (err) {
-            console.error("Failed to parse WebSocket message:", err);
-            setError("Failed to parse WebSocket message.");
-        } finally {
-            setLoading(false);
         }
-    }
+    }, [lastMessage]);
+
+    const getStatus = () => {
+        if (error) return "error";
+        if (lastReceived) {
+            const now = new Date();
+            const diff = (now.getTime() - lastReceived.getTime()) / 1000;
+            if (diff <= 15) return "active";
+        }
+        return "idle";
+    };
+
+    const status = getStatus();
 
     const formatBytes = (bytes: number) => {
         const units = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -47,17 +63,38 @@ export function Plans() {
 
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-6">
-            <h1 className="text-2xl font-bold">Your Current Plan</h1>
+            <div className="flex items-center space-x-2">
+                <h1 className="text-2xl font-bold">Your Current Plan</h1>
+                <span
+                    className={`w-3 h-3 rounded-full 
+                        ${
+                        status === "active"
+                            ? "bg-green-500 animate-pulse"
+                            : status === "error"
+                                ? "bg-red-500 animate-pulse"
+                                : "bg-gray-500"
+                    }
+                    `}
+                    aria-label={
+                        status === "active"
+                            ? "Data is up to date"
+                            : status === "error"
+                                ? "Error updating data"
+                                : "No recent updates"
+                    }
+                    role="status"
+                ></span>
+            </div>
 
             <div className="space-y-4">
-                {loading && (
-                    <p className="text-yellow-500">Loading your plan...</p>
+                {status === "active" && (
+                    <p className="text-green-500">Data is up to date.</p>
                 )}
 
                 {error && (
-                    <div className="flex items-center space-x-2 text-yellow-400">
+                    <div className="flex items-center space-x-2 text-red-500">
                         <FontAwesomeIcon icon={faExclamationTriangle} size="lg" />
-                        <p>There are some issues updating the data. Retrying...</p>
+                        <p>{error}</p>
                     </div>
                 )}
 
