@@ -8,6 +8,11 @@ import {
 import sidebarStyles from "./sidebar.module.css";
 import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
 import { Plans } from "~/dashboard/sidebar/sections/proxy/plans/plans";
+import {GoogleChrome} from "~/dashboard/sidebar/sections/start/googlechrome/googlechrome";
+import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
+import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
+import {LinuxProxySetup} from "~/dashboard/sidebar/sections/start/linux/linux";
+import {WindowsProxySetup} from "~/dashboard/sidebar/sections/start/windows/windows";
 
 interface SidebarProps {
     activeSection: string;
@@ -20,8 +25,11 @@ const sections = [
     {
         name: "Start",
         tabs: [
-            { name: "Google Chrome", component: () => <div>Google Chrome Settings</div> },
-            { name: "Firefox", component: () => <div>Firefox Settings</div> },
+            { name: "Google Chrome", GoogleChrome: <GoogleChrome />, },
+            { name: "Firefox", GoogleChrome: <Firefox />, },
+            { name: "iOS", iOS: <IOS />},
+            { name: "Windows", iOS: <WindowsProxySetup />},
+            { name: "Linux", iOS: <LinuxProxySetup />},
         ],
         icon: FaRocket,
     },

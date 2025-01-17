@@ -3,36 +3,41 @@ import dashboardStyles from "./dashboard.module.css";
 import React, { useState } from "react";
 import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
 import {Plans} from "~/dashboard/sidebar/sections/proxy/plans/plans"
+import {GoogleChrome} from "~/dashboard/sidebar/sections/start/googlechrome/googlechrome";
+import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
+import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
+import {LinuxProxySetup} from "~/dashboard/sidebar/sections/start/linux/linux";
+import {WindowsProxySetup} from "~/dashboard/sidebar/sections/start/windows/windows";
 
 export function Dashboard() {
-    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-    const [activeSection, setActiveSection] = useState("Proxy");
-    const [activeTab, setActiveTab] = useState("Available Proxies");
+    const [activeSection, setActiveSection] = useState("Start");
+    const [activeTab, setActiveTab] = useState("Google Chrome");
 
     const contentMap: Record<string, Record<string, React.ReactNode>> = {
+        Start: {
+            "Google Chrome": <GoogleChrome />,
+            "Firefox": <Firefox />,
+            "iOS": <IOS />,
+            "Windows": <WindowsProxySetup />,
+            "Linux": <LinuxProxySetup />,
+        },
         Proxy: {
-            "Available Proxies": (
-                <div className="bg-zinc-800 p-4 rounded-lg shadow-lg text-gray-300">
-                    <p>Here you can see the available proxies.</p>
-                </div>
-            ),
-            Credentials: <Credentials />,
-            Plans: <Plans />,
-
+            "Plans": <Plans />,
+            "Credentials": <Credentials />,
         },
         Account: {
-            Billing: (
+            "Billing": (
                 <div className="bg-zinc-800 p-4 rounded-lg shadow-lg text-gray-300">
                     <p>Here you can manage your billing information.</p>
                 </div>
             ),
-            Settings: (
+            "Settings": (
                 <div className="bg-zinc-800 p-4 rounded-lg shadow-lg text-gray-300">
                     <p>Here you can update your account settings.</p>
                 </div>
             ),
         },
-        Support: {
+        "Support": {
             "Help Center": (
                 <div className="bg-zinc-800 p-4 rounded-lg shadow-lg text-gray-300">
                     <p>Visit our Help Center for FAQs and documentation.</p>
@@ -54,8 +59,6 @@ export function Dashboard() {
     return (
         <div className={dashboardStyles["dashboard"]}>
             <Sidebar
-                isCollapsed={isSidebarCollapsed}
-                setIsCollapsed={setIsSidebarCollapsed}
                 activeSection={activeSection}
                 setActiveSection={setActiveSection}
                 activeTab={activeTab}
@@ -63,9 +66,7 @@ export function Dashboard() {
             />
             <main
                 className={`${dashboardStyles["main"]} ${
-                    isSidebarCollapsed
-                        ? dashboardStyles["main-collapsed"]
-                        : dashboardStyles["main-expanded"]
+                        dashboardStyles["main-expanded"]
                 }`}
             >
                 {renderContent()}
