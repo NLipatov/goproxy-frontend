@@ -1,6 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import sellingSectionStyles from "./introduction.module.css"
+import {
+    FaChrome,
+    FaFirefox,
+    FaAndroid,
+    FaApple,
+    FaLinux,
+    FaWindows,
+} from "react-icons/fa";
 
 const messages = [
     "values you",
@@ -9,6 +17,15 @@ const messages = [
     "not tracking your online activity",
     "not hiding its source code",
     "you can rely on",
+];
+
+const platforms = [
+    { name: "Windows", icon: <FaWindows className="text-3xl" /> },
+    { name: "macOS", icon: <FaApple className="text-3xl" /> },
+    { name: "Linux", icon: <FaLinux className="text-3xl" /> },
+    { name: "Android", icon: <FaAndroid className="text-3xl" /> },
+    { name: "Chrome", icon: <FaChrome className="text-3xl" /> },
+    { name: "Firefox", icon: <FaFirefox className="text-3xl" /> },
 ];
 
 export function Introduction() {
@@ -22,7 +39,7 @@ export function Introduction() {
     }, []);
 
     return (
-        <section className={`${sellingSectionStyles["section"]} bg-black min-h-screen flex flex-col items-center justify-center text-center`}>
+        <section className={`${sellingSectionStyles["section"]} bg-black min-h-screen flex flex-col items-center justify-center text-center mt-4`}>
             <p className="text-lg text-green-500 mb-4">
                 Level up your online security
             </p>
@@ -52,6 +69,21 @@ export function Introduction() {
                 Get Started
             </button>
 
+            <div className="mt-10">
+                <h2 className="text-xl font-bold text-gray-300 mb-4">
+                    Supported Platforms
+                </h2>
+                <div className="flex justify-center space-x-6">
+                    {platforms.map((platform) => (
+                        <div key={platform.name} className="text-gray-400 hover:text-green-500 transition-colors">
+                            <div className="flex flex-col items-center">
+                                {platform.icon}
+                                <span className="mt-2 text-sm">{platform.name}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
         </section>
     );
