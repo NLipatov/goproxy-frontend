@@ -2,28 +2,39 @@ import React, { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-icons";
-import {PLAN_WS_URL} from "../../../../../constants"
+import { AUTH_API_LOGIN_URL, PLAN_WS_URL } from "../../../../../constants";
+import { type PlanResponse } from "~/dto/apiResponse";
 
 export function Plans() {
-    const [currentPlan, setCurrentPlan] = useState<Plan | null>(null);
+    const [currentPlan, setCurrentPlan] = useState<PlanResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [lastReceived, setLastReceived] = useState<Date | null>(null);
 
-    const { lastMessage, readyState, getWebSocket } = useWebSocket(PLAN_WS_URL, {
-        shouldReconnect: (closeEvent) => true,
+    const { lastMessage } = useWebSocket(PLAN_WS_URL, {
+        shouldReconnect: () => true,
         reconnectAttempts: 10,
         reconnectInterval: 5000,
     });
+
+    const calculateProgress = (used: number, total: number) => {
+        return Math.min((used / total) * 100, 100).toFixed(2);
+    };
 
     useEffect(() => {
         if (lastMessage !== null) {
             try {
                 const data = JSON.parse(lastMessage.data);
+
+                if (data.errorCode === 401) {
+                    window.location.href = AUTH_API_LOGIN_URL
+                    return;
+                }
+
                 if (data.error) {
                     setError(data.error);
                 } else {
                     setError(null);
-                    setCurrentPlan(data.plan);
+                    setCurrentPlan(data);
                 }
                 setLastReceived(new Date());
             } catch (err) {
@@ -54,10 +65,6 @@ export function Plans() {
             i++;
         }
         return { value: bytes.toFixed(2), unit: units[i] };
-    };
-
-    const calculateProgress = (used: number, total: number) => {
-        return Math.min((used / total) * 100, 100).toFixed(2);
     };
 
     return (
@@ -97,11 +104,15 @@ export function Plans() {
                     </div>
                 )}
 
-                {currentPlan && (
+                {!currentPlan?.payload && !error && (
+                    <p className="text-gray-400">No plan information available.</p>
+                )}
+
+                {currentPlan?.payload && (
                     <>
                         <div className="bg-zinc-800 p-4 rounded-md shadow-inner">
                             <p className="text-green-500 font-bold">Plan Name:</p>
-                            <p className="text-xl mt-2">{currentPlan.name}</p>
+                            <p className="text-xl mt-2">{currentPlan.payload.name}</p>
                         </div>
 
                         <div className="bg-zinc-800 p-4 rounded-md shadow-inner">
@@ -117,8 +128,8 @@ export function Plans() {
                                         className="h-full"
                                         style={{
                                             width: `${calculateProgress(
-                                                currentPlan.limits.bandwidth.used,
-                                                currentPlan.limits.bandwidth.total
+                                                currentPlan.payload.limits.bandwidth.used,
+                                                currentPlan.payload.limits.bandwidth.total
                                             )}%`,
                                             background:
                                                 "linear-gradient(90deg, rgba(34, 197, 94, 0.8), rgba(59, 130, 246, 0.8))",
@@ -126,32 +137,49 @@ export function Plans() {
                                         }}
                                     ></div>
                                 </div>
-                                <p className="text-sm mt-2 text-gray-300">
-                                    Used: {formatBytes(currentPlan.limits.bandwidth.used).value}{" "}
-                                    {formatBytes(currentPlan.limits.bandwidth.used).unit} /{" "}
-                                    {formatBytes(currentPlan.limits.bandwidth.total).value}{" "}
-                                    {formatBytes(currentPlan.limits.bandwidth.total).unit}
-                                </p>
                             </div>
+                            <p className="text-gray-300">
+                                {currentPlan.payload.limits.bandwidth.isLimited ? (
+                                    <>
+                                        Used: {formatBytes(currentPlan.payload.limits.bandwidth.used).value}{" "}
+                                        {formatBytes(currentPlan.payload.limits.bandwidth.used).unit} /{" "}
+                                        {formatBytes(currentPlan.payload.limits.bandwidth.total).value}{" "}
+                                        {formatBytes(currentPlan.payload.limits.bandwidth.total).unit}
+                                    </>
+                                ) : (
+                                    <>
+                                        <FontAwesomeIcon icon={faInfinity} className="mr-2" />
+                                        Unlimited
+                                    </>
+                                )}
+                            </p>
                         </div>
 
                         <div className="bg-zinc-800 p-4 rounded-md shadow-inner">
                             <p className="text-green-500 font-bold">Connections:</p>
-                            <p className="text-xl mt-2">
-                                {currentPlan.limits.connections} connections
+                            <p className="text-gray-300">
+                                {currentPlan.payload.limits.connections.isLimited ? (
+                                    `Max Concurrent Connections: ${currentPlan.payload.limits.connections.maxConcurrentConnections}`
+                                ) : (
+                                    <>
+                                        <FontAwesomeIcon icon={faInfinity} className="mr-2" />
+                                        Unlimited
+                                    </>
+                                )}
                             </p>
                         </div>
 
                         <div className="bg-zinc-800 p-4 rounded-md shadow-inner">
                             <p className="text-green-500 font-bold">Speed:</p>
-                            <p className="text-xl mt-2 flex items-center">
-                                {currentPlan.limits.speed === "unlimited" ? (
+                            <p className="text-gray-300">
+                                {currentPlan.payload.limits.speed.isLimited ? (
+                                    `Max Speed: ${formatBytes(currentPlan.payload.limits.speed.maxBytesPerSecond).value} 
+                                     ${formatBytes(currentPlan.payload.limits.speed.maxBytesPerSecond).unit}/s`
+                                ) : (
                                     <>
                                         <FontAwesomeIcon icon={faInfinity} className="mr-2" />
                                         Unlimited
                                     </>
-                                ) : (
-                                    currentPlan.limits.speed
                                 )}
                             </p>
                         </div>
