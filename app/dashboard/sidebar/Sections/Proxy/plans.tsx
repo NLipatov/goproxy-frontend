@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-icons";
+import {PLAN_WS_URL} from "../../../../../constants"
 
 export function Plans() {
     const [currentPlan, setCurrentPlan] = useState<Plan | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [lastReceived, setLastReceived] = useState<Date | null>(null);
 
-    const SOCKET_URL = "ws://localhost:3031/ws";
-
-    const { lastMessage, readyState, getWebSocket } = useWebSocket(SOCKET_URL, {
+    const { lastMessage, readyState, getWebSocket } = useWebSocket(PLAN_WS_URL, {
         shouldReconnect: (closeEvent) => true,
         reconnectAttempts: 10,
         reconnectInterval: 5000,
