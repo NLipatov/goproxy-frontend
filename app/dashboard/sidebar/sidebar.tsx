@@ -6,8 +6,8 @@ import {
     FaQuestionCircle,
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
-import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
-import { Usage } from "~/dashboard/sidebar/sections/proxy/plans/usage";
+import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials/credentials";
+import { Usage } from "~/dashboard/sidebar/sections/proxy/usage/usage";
 import {GoogleChrome} from "~/dashboard/sidebar/sections/start/googlechrome/googlechrome";
 import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AUTH_API_BASE_URL } from "../../../../../constants";
+import { AUTH_API_BASE_URL } from "../../../../../../constants";
 import { faCopy, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

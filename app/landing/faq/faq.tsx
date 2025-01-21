@@ -49,7 +49,7 @@ const faqData = [
     {
         question: "What is the maximum connection speed?",
         answer:
-            "All plans offer connection speeds of up to 1 Gbps, ensuring fast and reliable performance for your needs.",
+            "All usage offer connection speeds of up to 1 Gbps, ensuring fast and reliable performance for your needs.",
     },
     {
         question: "How many simultaneous connections are supported?",

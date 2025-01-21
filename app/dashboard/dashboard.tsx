@@ -1,8 +1,8 @@
 import { Sidebar } from "./sidebar/sidebar";
 import dashboardStyles from "./dashboard.module.css";
 import React, { useState } from "react";
-import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
-import {Usage} from "~/dashboard/sidebar/sections/proxy/plans/usage"
+import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials/credentials";
+import {Usage} from "~/dashboard/sidebar/sections/proxy/usage/usage"
 import {GoogleChrome} from "~/dashboard/sidebar/sections/start/googlechrome/googlechrome";
 import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
@@ -26,6 +26,9 @@ export function Dashboard() {
             "Credentials": <Credentials />,
         },
         Account: {
+            "Plans": (
+                <div></div>
+            ),
             "Billing": (
                 <div className="bg-zinc-800 p-4 rounded-lg shadow-lg text-gray-300">
                     <p>Here you can manage your billing information.</p>
