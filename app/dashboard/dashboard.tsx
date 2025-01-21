@@ -2,7 +2,7 @@ import { Sidebar } from "./sidebar/sidebar";
 import dashboardStyles from "./dashboard.module.css";
 import React, { useState } from "react";
 import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
-import {Plans} from "~/dashboard/sidebar/sections/proxy/plans/plans"
+import {Usage} from "~/dashboard/sidebar/sections/proxy/plans/usage"
 import {GoogleChrome} from "~/dashboard/sidebar/sections/start/googlechrome/googlechrome";
 import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
@@ -22,7 +22,7 @@ export function Dashboard() {
             "Linux": <LinuxProxySetup />,
         },
         Proxy: {
-            "Plans": <Plans />,
+            "Usage": <Usage />,
             "Credentials": <Credentials />,
         },
         Account: {

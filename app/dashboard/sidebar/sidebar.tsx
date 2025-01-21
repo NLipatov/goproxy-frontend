@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import sidebarStyles from "./sidebar.module.css";
 import { Credentials } from "~/dashboard/sidebar/sections/proxy/credentials";
-import { Plans } from "~/dashboard/sidebar/sections/proxy/plans/plans";
+import { Usage } from "~/dashboard/sidebar/sections/proxy/plans/usage";
 import {GoogleChrome} from "~/dashboard/sidebar/sections/start/googlechrome/googlechrome";
 import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
@@ -36,7 +36,7 @@ const sections = [
     {
         name: "Proxy",
         tabs: [
-            { name: "Plans", component: () => <Plans /> },
+            { name: "Usage", component: () => <Usage /> },
             { name: "Credentials", component: () => <Credentials /> },
         ],
         icon: FaServer,

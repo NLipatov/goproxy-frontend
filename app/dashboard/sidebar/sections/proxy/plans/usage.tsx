@@ -18,7 +18,7 @@ const calculateProgress = (used: number, total: number) => {
     return Math.min((used / total) * 100, 100).toFixed(2);
 };
 
-export function Plans() {
+export function Usage() {
     const { currentPlan, error, status } = usePlan();
 
     return (
