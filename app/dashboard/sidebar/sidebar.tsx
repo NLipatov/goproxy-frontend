@@ -13,6 +13,7 @@ import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
 import {LinuxProxySetup} from "~/dashboard/sidebar/sections/start/linux/linux";
 import {WindowsProxySetup} from "~/dashboard/sidebar/sections/start/windows/windows";
+import {Plans} from "~/dashboard/sidebar/sections/account/plans/plans";
 
 interface SidebarProps {
     activeSection: string;
@@ -44,6 +45,7 @@ const sections = [
     {
         name: "Account",
         tabs: [
+            { name: "Plans", component: () => <Plans /> },
             { name: "Billing", component: () => <div>Billing Details</div> },
             { name: "Available", component: () => <div>Account Settings</div> },
         ],

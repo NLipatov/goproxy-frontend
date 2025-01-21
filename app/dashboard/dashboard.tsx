@@ -8,6 +8,7 @@ import {Firefox} from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import {IOS} from "~/dashboard/sidebar/sections/start/ios/ios";
 import {LinuxProxySetup} from "~/dashboard/sidebar/sections/start/linux/linux";
 import {WindowsProxySetup} from "~/dashboard/sidebar/sections/start/windows/windows";
+import {Plans} from "~/dashboard/sidebar/sections/account/plans/plans";
 
 export function Dashboard() {
     const [activeSection, setActiveSection] = useState("Start");
@@ -26,9 +27,7 @@ export function Dashboard() {
             "Credentials": <Credentials />,
         },
         Account: {
-            "Plans": (
-                <div></div>
-            ),
+            "Plans": <Plans />,
             "Billing": (
                 <div className="bg-zinc-800 p-4 rounded-lg shadow-lg text-gray-300">
                     <p>Here you can manage your billing information.</p>
