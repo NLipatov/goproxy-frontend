@@ -24,7 +24,7 @@ export function Usage() {
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-6">
             <div className="flex items-center space-x-2">
-                <h1 className="text-2xl font-bold">Your Current Plan</h1>
+                <h1 className="text-2xl font-bold">Your Current Plan Usage</h1>
                 <span
                     className={`w-3 h-3 rounded-full 
                         ${
