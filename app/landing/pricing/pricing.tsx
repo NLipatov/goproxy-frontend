@@ -1,48 +1,9 @@
 import pricingStyles from "./pricing.module.css"
+import {GetPlans} from "~/services/plansService";
 
-const pricingPlans = [
-    {
-        name: "Free",
-        description: "Start exploring secure and private browsing for free.",
-        currency: "$",
-        price: "0",
-        period: "/day",
-        features: [
-            "Limited bandwidth (300MB/day)",
-            "Up to 1 Gbps connection speed",
-            "Up to 25 simultaneous connections",
-            "No activity logging",
-            "Blocked for 30 seconds upon exceeding rate limits"
-        ]
-    },
-    {
-        name: "Plus",
-        description: "Advanced features for everyday secure browsing.",
-        currency: "$",
-        price: "5",
-        period: "/month",
-        features: [
-            "Unlimited bandwidth",
-            "Up to 1 Gbps connection speed",
-            "Up to 25 simultaneous connections",
-            "No activity logging",
-            "Blocked for 30 seconds upon exceeding rate limits"
-        ]
-    },
-    {
-        name: "Pro",
-        description: "Ultimate performance and security for professionals.",
-        currency: "$",
-        price: "45",
-        period: "/year",
-        features: [
-            "Includes everything in Plus",
-            "25% cheaper than Plus"
-        ]
-    },
-];
 
 export function Pricing() {
+    const plans = GetPlans();
     return (
         <section id="Pricing" className={`${pricingStyles["section-pricing"]} py-16 scroll-mt-4`}>
             <div className="container mx-auto text-center mb-12">
@@ -52,7 +13,7 @@ export function Pricing() {
                 </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 container mx-auto px-6">
-                {pricingPlans.map((plan, index) => (
+                {plans.map((plan, index) => (
                     <div
                         key={index}
                         className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300"
@@ -80,7 +41,8 @@ export function Pricing() {
                             </ul>
                         </div>
 
-                        <button className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
+                        <button
+                            className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
                             {plan.name === "Free" ? "Get Free" : `Get ${plan.name}`}
                         </button>
                     </div>

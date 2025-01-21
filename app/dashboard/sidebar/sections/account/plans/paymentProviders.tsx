@@ -7,8 +7,8 @@ interface PaymentProvidersProps {
 
 export function PaymentProviders({ onProviderSelect }: PaymentProvidersProps) {
     const providers = [
-        { name: "PayPal", icon: <FaPaypal className="text-3xl text-blue-500" /> },
         { name: "Stripe", icon: <FaStripe className="text-3xl text-purple-500" /> },
+        { name: "PayPal", icon: <FaPaypal className="text-3xl text-blue-500" /> },
     ];
 
     return (
