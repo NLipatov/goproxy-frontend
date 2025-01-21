@@ -1,3 +1,5 @@
+import type {ApiResponse} from "~/dto/apiResponse";
+
 export type Plan = {
     name: string;
     limits: {
@@ -16,3 +18,5 @@ export type Plan = {
         };
     };
 };
+
+export type PlanResponse = ApiResponse<Plan>;
