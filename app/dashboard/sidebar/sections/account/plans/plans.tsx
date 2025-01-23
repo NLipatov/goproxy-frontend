@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import { GetPlans } from "~/services/plans";
+import React, {useState} from "react";
+import {useFetchPlans} from "~/hooks/useFetchPlans";
 import pricingStyles from "./pricing.module.css";
-import {PaymentProviders } from "./paymentProviders"
+import {PaymentProviders} from "./paymentProviders";
+import {PlanCard} from "~/sharedComponent/PlanCard";
 
 export function Plans() {
-    const plans = GetPlans();
+    const {plans, loading, error} = useFetchPlans();
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
     const [showProviders, setShowProviders] = useState(false);
 
     const handleSelectPlan = (planName: string) => {
         const plan = plans.find((p) => p.name === planName);
-        if (plan?.price === "0") {
+        if (plan?.price === "0" || !plan?.price) {
             alert(`You have selected the Free plan!`);
         } else {
             setSelectedPlan(planName);
@@ -23,6 +24,14 @@ export function Plans() {
         setShowProviders(false);
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto">
             <h1 className="text-3xl font-bold mb-6">Select Your Plan</h1>
@@ -30,43 +39,25 @@ export function Plans() {
                 {plans.map((plan, index) => (
                     <div
                         key={index}
-                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300"
-                    >
-                        <div>
-                            <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                            <p className="text-gray-400 mb-4">{plan.description}</p>
-                            <div className="text-4xl font-extrabold mb-6">
-                                {plan.currency}
-                                {plan.price}
-                                <span className="text-xl font-normal text-gray-400">{plan.period}</span>
-                            </div>
-                            <ul className="mb-6">
-                                {plan.features.map((feature, i) => (
-                                    <li
-                                        key={i}
-                                        className="flex items-center mb-2 text-gray-300"
-                                    >
-                                        <span className="text-green-500 mr-2">✓</span>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
+                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300">
+                        <PlanCard
+                            name={plan.name}
+                            price={plan.price}
+                            currency={plan.currency}
+                            formattedDuration={plan.formattedDuration}
+                            features={plan.features}/>
                         <button
                             onClick={() => handleSelectPlan(plan.name)}
-                            className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300"
-                        >
+                            className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
                             {plan.name === "Free" ? "Get Free" : `Get ${plan.name}`}
                         </button>
                     </div>
                 ))}
             </div>
-
             {showProviders && (
                 <div className="mt-8">
                     <h2 className="text-2xl font-bold mb-4">Choose Payment Provider</h2>
-                    <PaymentProviders onProviderSelect={handleProviderSelect} />
+                    <PaymentProviders onProviderSelect={handleProviderSelect}/>
                 </div>
             )}
         </div>
