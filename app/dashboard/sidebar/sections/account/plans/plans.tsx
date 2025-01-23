@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GetPlans } from "~/services/plansService";
+import { GetPlans } from "~/services/plans";
 import pricingStyles from "./pricing.module.css";
 import {PaymentProviders } from "./paymentProviders"
 
@@ -11,10 +11,8 @@ export function Plans() {
     const handleSelectPlan = (planName: string) => {
         const plan = plans.find((p) => p.name === planName);
         if (plan?.price === "0") {
-            // Бесплатный план - сразу подключаем
             alert(`You have selected the Free plan!`);
         } else {
-            // Платный план - показываем провайдеров оплаты
             setSelectedPlan(planName);
             setShowProviders(true);
         }

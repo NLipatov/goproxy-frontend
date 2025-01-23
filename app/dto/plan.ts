@@ -1,6 +1,9 @@
-import type {ApiResponse} from "~/dto/apiResponse";
+export interface PlanFeature {
+    name: string;
+    description: string;
+}
 
-export type Plan = {
+export interface Plan {
     name: string;
     limits: {
         bandwidth: {
@@ -9,14 +12,19 @@ export type Plan = {
             total: number;
         };
         connections: {
-          isLimited: boolean;
-          maxConcurrentConnections: number;
-        },
+            isLimited: boolean;
+            maxConcurrentConnections: number;
+        };
         speed: {
             isLimited: boolean;
             maxBytesPerSecond: number;
         };
     };
-};
+    features: PlanFeature[];
+    duration_days: number;
+    prices: { cents: number; currency: string }[] | null;
+    price?: string | null;
+    currency?: string | null;
+    formattedDuration?: string;
+}
 
-export type PlanResponse = ApiResponse<Plan>;
