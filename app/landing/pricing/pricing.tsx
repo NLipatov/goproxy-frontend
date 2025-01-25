@@ -7,11 +7,11 @@ export function Pricing() {
     const {plans, loading, error} = useFetchPlans();
 
     if (loading) {
-        return <div>Loading...</div>;
+        return;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
+    if (plans.length == 0) {
+        return;
     }
 
     return (
