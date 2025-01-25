@@ -1,17 +1,21 @@
 import React from "react";
 import pricingStyles from "./pricing.module.css";
-import {useFetchPlans} from "~/hooks/useFetchPlans";
-import {PlanCard} from "~/sharedComponent/PlanCard";
+import { useFetchPlans } from "~/hooks/useFetchPlans";
+import { PlanCard } from "~/sharedComponent/PlanCard";
 
 export function Pricing() {
-    const {plans, loading, error} = useFetchPlans();
+    const { plans, loading, error } = useFetchPlans();
 
     if (loading) {
-        return;
+        return null;
     }
 
-    if (plans.length == 0) {
-        return;
+    if (!plans || plans.length === 0) {
+        return (
+            <p className="text-center text-gray-400">
+                No plans available at the moment.
+            </p>
+        );
     }
 
     return (
@@ -20,11 +24,11 @@ export function Pricing() {
                 <h2 className="text-4xl font-bold text-white mb-4">Pricing</h2>
                 <p className="text-gray-400">Choose the plan that suits your needs best.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 container mx-auto px-6">
+            <div className="flex flex-wrap justify-center gap-8 container mx-auto px-6">
                 {plans.map((plan, index) => (
                     <div
                         key={index}
-                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300">
+                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300 max-w-xs">
                         <PlanCard
                             name={plan.name}
                             price={plan.price}
