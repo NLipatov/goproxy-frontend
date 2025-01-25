@@ -14,10 +14,11 @@ export const GetPlans = async (): Promise<Plan[]> => {
 
         const data: { payload: Plan[] } = await response.json();
 
+
         return data.payload.map((plan) => {
             const offers = plan.offers?.map((offer: Offer) => ({
                 description: offer.description,
-                offerId: offer.offerId,
+                offer_id: offer.offer_id,
                 prices: offer.prices,
             })) || [];
 
@@ -48,7 +49,7 @@ export const GetPlans = async (): Promise<Plan[]> => {
                 price: userPrice ? (userPrice.cents / 100).toFixed(2) : null,
                 currency: userPrice ? userPrice.currency : null,
                 formattedDuration: duration,
-                paymentMethods: userPrice ? userPrice.paymentMethod : [],
+                payment_methods: userPrice ? userPrice.payment_method : [],
             };
         });
     } catch (error) {

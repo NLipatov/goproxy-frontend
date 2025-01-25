@@ -4,7 +4,7 @@ export type Invoice = {
     id: string;
     offerId: string;
     currency: "USD" | "EUR";
-    paymentMethod: "paypal" | "stripe";
+    payment_method: "paypal" | "stripe";
     status: "pending" | "paid" | "failed";
     createdAt: string;
 };
@@ -12,7 +12,7 @@ export type Invoice = {
 export type CreateInvoiceRequest = {
     offerId: string;
     currency: "USD" | "EUR";
-    paymentMethod: "paypal" | "stripe";
+    payment_method: "paypal" | "stripe";
 };
 
 export type InvoicesResponse = ApiResponse<Invoice[]>;

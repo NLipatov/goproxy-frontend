@@ -3,34 +3,76 @@ import {useFetchPlans} from "~/hooks/useFetchPlans";
 import pricingStyles from "./pricing.module.css";
 import {PaymentProviders} from "./paymentProviders";
 import {PlanCard} from "~/sharedComponent/PlanCard";
+import {ACCOUNTING_API_BASE_URL, ACCOUNTING_API_POST_INVOICES_URL} from "../../../../../../constants"
 
 export function Plans() {
     const {plans, loading, error} = useFetchPlans();
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+    const [selectedOffer, setSelectedOffer] = useState<{ offer_id: string; currency: string } | null>(null);
     const [showProviders, setShowProviders] = useState(false);
 
     const handleSelectPlan = (planName: string) => {
         const plan = plans.find((p) => p.name === planName);
-        if (plan?.price === "0.00" || !plan?.price) {
+        if (!plan) return;
+
+        console.log(plan)
+
+        if (plan.price === "0.00" || !plan.price) {
             alert(`You have selected the Free plan!`);
         } else {
-            setSelectedPlan(planName);
-            setShowProviders(true);
+            const offer = plan.offers?.find((o) => o.prices.some((p) => p.currency === plan.currency));
+            if (offer) {
+                setSelectedPlan(planName);
+                setSelectedOffer({
+                    offer_id: offer.offer_id,
+                    currency: plan.currency || "",
+                });
+                setShowProviders(true);
+            }
         }
     };
 
-    const handleProviderSelect = (provider: string) => {
-        alert(`You selected the ${selectedPlan} plan with ${provider} as the payment provider.`);
+    const handleProviderSelect = async (provider: string) => {
+        if (!selectedOffer) return;
+
+        const payload = {
+            offer_id: selectedOffer.offer_id,
+            currency: selectedOffer.currency,
+            payment_method: provider,
+        };
+
+        try {
+            const response = await fetch(`${ACCOUNTING_API_BASE_URL}/${ACCOUNTING_API_POST_INVOICES_URL}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to process payment: ${response.statusText}`);
+            }
+
+            alert("Payment successfully processed!");
+        } catch (error) {
+            console.error("Payment error:", error);
+            alert("Failed to process payment. Please try again.");
+        } finally {
+            resetSelection();
+        }
+    };
+
+    const resetSelection = () => {
+        setSelectedPlan(null);
+        setSelectedOffer(null);
         setShowProviders(false);
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    if (loading) return <div>Loading...</div>;
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto">

@@ -6,12 +6,12 @@ export interface PlanFeature {
 export interface Price {
     cents: number;
     currency: string;
-    paymentMethod: string[];
+    payment_method: string[];
 }
 
 export interface Offer {
     description: string | null;
-    offerId: string;
+    offer_id: string;
     prices: Price[];
 }
 
@@ -38,5 +38,5 @@ export interface Plan {
     currency?: string | null;
     formattedDuration?: string;
     price?: string | null;
-    paymentMethods?: string[];
+    payment_methods?: string[];
 }
