@@ -39,7 +39,11 @@ export const GetPlans = async (): Promise<Plan[]> => {
             };
         });
     } catch (error) {
-        console.error(`Error fetching plans: ${error.message}`);
+        if (error instanceof Error) {
+            console.error(`Error fetching plans: ${error.message}`);
+        } else {
+            console.error("An unknown error occurred");
+        }
         return [];
     }
 };
