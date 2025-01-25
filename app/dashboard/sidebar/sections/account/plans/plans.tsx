@@ -11,7 +11,7 @@ export function Plans() {
 
     const handleSelectPlan = (planName: string) => {
         const plan = plans.find((p) => p.name === planName);
-        if (plan?.price === "0" || !plan?.price) {
+        if (plan?.price === "0.00" || !plan?.price) {
             alert(`You have selected the Free plan!`);
         } else {
             setSelectedPlan(planName);
@@ -35,11 +35,11 @@ export function Plans() {
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto">
             <h1 className="text-3xl font-bold mb-6">Select Your Plan</h1>
-            <div className={`${pricingStyles["section-pricing"]} grid grid-cols-1 md:grid-cols-3 gap-6`}>
+            <div className="flex flex-wrap justify-center gap-6">
                 {plans.map((plan, index) => (
                     <div
                         key={index}
-                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300">
+                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300 max-w-xs">
                         <PlanCard
                             name={plan.name}
                             price={plan.price}
