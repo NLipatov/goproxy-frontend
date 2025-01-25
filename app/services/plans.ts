@@ -1,6 +1,6 @@
-import type {Plan} from "~/dto/plan";
-import {ACCOUNTING_API_BASE_URL, ACCOUNTING_API_GET_PlANS_URL} from "../../constants";
-import {getUserCurrency} from "~/services/localistation";
+import type { Plan, Offer, Price } from "~/dto/plan";
+import { ACCOUNTING_API_BASE_URL, ACCOUNTING_API_GET_PlANS_URL } from "../../constants";
+import { getUserCurrency } from "~/services/localistation";
 
 export const GetPlans = async (): Promise<Plan[]> => {
     const userCurrency = getUserCurrency();
@@ -15,10 +15,21 @@ export const GetPlans = async (): Promise<Plan[]> => {
         const data: { payload: Plan[] } = await response.json();
 
         return data.payload.map((plan) => {
-            const prices = plan.prices || [];
-            const userPrice = prices.find((p) => p.currency === userCurrency) || null;
+            const offers = plan.offers?.map((offer: Offer) => ({
+                description: offer.description,
+                offerId: offer.offerId,
+                prices: offer.prices,
+            })) || [];
 
-            const features = plan.features.map((feature: { name: string; description: string }) => ({
+            const selectedOffer = offers.find((offer) =>
+                offer.prices.some((price) => price.currency === userCurrency)
+            );
+
+            const userPrice: Price | undefined = selectedOffer
+                ? selectedOffer.prices.find((price) => price.currency === userCurrency)
+                : undefined;
+
+            const features = plan.features.map((feature) => ({
                 name: feature.name,
                 description: feature.description,
             }));
@@ -33,9 +44,11 @@ export const GetPlans = async (): Promise<Plan[]> => {
             return {
                 ...plan,
                 features,
+                offers,
                 price: userPrice ? (userPrice.cents / 100).toFixed(2) : null,
                 currency: userPrice ? userPrice.currency : null,
                 formattedDuration: duration,
+                paymentMethods: userPrice ? userPrice.paymentMethod : [],
             };
         });
     } catch (error) {
