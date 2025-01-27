@@ -11,11 +11,7 @@ export function Pricing() {
     }
 
     if (!plans || plans.length === 0) {
-        return (
-            <p className="text-center text-gray-400">
-                No plans available at the moment.
-            </p>
-        );
+        return null;
     }
 
     return (
