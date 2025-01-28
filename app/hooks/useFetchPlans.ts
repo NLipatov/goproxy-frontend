@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetPlans } from "~/services/plans";
+import { GetPlans } from "~/services/plansService";
 import type { Plan } from "~/dto/plan";
 
 export const useFetchPlans = () => {

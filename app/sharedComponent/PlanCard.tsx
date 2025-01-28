@@ -1,27 +1,23 @@
 import React from "react";
-import {FaDollarSign, FaEuroSign, FaRubleSign} from "react-icons/fa";
+import { FaDollarSign, FaEuroSign, FaRubleSign } from "react-icons/fa";
+import type { Plan } from "~/dto/plan";
 
-interface PlanCardProps {
-    name: string;
-    price: string | null | undefined;
-    currency: string | null | undefined;
-    formattedDuration: string | null | undefined;
-    features: { description: string }[];
-}
+export const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
+    const { price, name, features, duration } = plan;
+    const formattedPrice = formatPrice(price.cents);
 
-export const PlanCard: React.FC<PlanCardProps> = ({name, price, currency, formattedDuration, features}) => {
     return (
         <div>
             <h3 className="text-2xl font-bold mb-2">{name}</h3>
             <div className="text-4xl font-extrabold mb-6 flex items-center">
-                {price ? (
+                {price.currency !== "N/A" ? (
                     <>
-                        {currency === "USD" && <FaDollarSign className="mr-2"/>}
-                        {currency === "EUR" && <FaEuroSign className="mr-2"/>}
-                        {currency === "RUB" && <FaRubleSign className="mr-2"/>}
-                        {price}
+                        {price.currency === "USD" && <FaDollarSign className="mr-2" />}
+                        {price.currency === "EUR" && <FaEuroSign className="mr-2" />}
+                        {price.currency === "RUB" && <FaRubleSign className="mr-2" />}
+                        {formattedPrice}
                         <span className="text-xl font-normal text-gray-400 ml-2">
-                            {formattedDuration ? `/ ${formattedDuration}` : ""}
+                            {duration ? `/ ${duration}` : ""}
                         </span>
                     </>
                 ) : (
@@ -32,10 +28,15 @@ export const PlanCard: React.FC<PlanCardProps> = ({name, price, currency, format
                 {features.map((feature, i) => (
                     <li key={i} className="flex items-center mb-2 text-gray-300">
                         <span className="text-green-500 mr-2">✓</span>
-                        {feature.description}
+                        {feature}
                     </li>
                 ))}
             </ul>
         </div>
     );
+};
+
+const formatPrice = (cents: number): string => {
+    const price = cents / 100;
+    return price % 1 === 0 ? price.toFixed(0) : price.toFixed(1);
 };

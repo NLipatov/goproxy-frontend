@@ -1,42 +1,24 @@
-export interface PlanFeature {
+export interface Plan{
+    id: number;
     name: string;
-    description: string;
+    features: string[];
+    price: Price;
+    duration: string
 }
 
 export interface Price {
+    currency: string;
+    cents: number;
+}
+
+export interface PlanApiDto {
+    id: number;
+    name: string;
+    features: string[];
+    duration_days: number;
+}
+
+export interface PriceApiDto {
     cents: number;
     currency: string;
-    payment_method: string[];
-}
-
-export interface Offer {
-    description: string | null;
-    offer_id: string;
-    prices: Price[];
-}
-
-export interface Plan {
-    name: string;
-    limits: {
-        bandwidth: {
-            isLimited: boolean;
-            used: number;
-            total: number;
-        };
-        connections: {
-            isLimited: boolean;
-            maxConcurrentConnections: number;
-        };
-        speed: {
-            isLimited: boolean;
-            maxBytesPerSecond: number;
-        };
-    };
-    features: PlanFeature[];
-    duration_days: number;
-    offers: Offer[] | null;
-    currency?: string | null;
-    formattedDuration?: string;
-    price?: string | null;
-    payment_methods?: string[];
 }
