@@ -30,7 +30,7 @@ const planExpirationDateString = (usage: ApiResponse<Usage> | null) => {
     const expiresAt = new Date(createdAt);
     expiresAt.setDate(expiresAt.getDate() + usage.payload.duration_days);
 
-    return expiresAt.toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" });
+    return expiresAt;
 }
 
 export function Usage() {
@@ -82,8 +82,30 @@ export function Usage() {
                 </div>
 
                 <div className="bg-zinc-800 p-4 rounded-md shadow-inner">
-                    <p className="text-green-500 font-bold">Expires at:</p>
-                    <p className="text-gray-300">{planExpirationDateString(usage)}</p>
+                    <p className="text-green-500 font-bold mb-2">Expires at:</p>
+                    {(() => {
+                        const planExpirationDate = planExpirationDateString(usage);
+                        const formattedDate = planExpirationDate.toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" });
+                        const isExpired = planExpirationDate <= new Date();
+
+                        return (
+                            <div className={`flex flex-col gap-2 ${isExpired ? "text-red-500" : "text-gray-300"}`}>
+                                <div className="flex items-center gap-2">
+                                    {isExpired && <FontAwesomeIcon icon={faExclamationTriangle} size="lg" />}
+                                    <p className="font-semibold">{isExpired ? "Expired" : formattedDate}</p>
+                                    {isExpired && <p className="text-gray-400">{formattedDate}</p>}
+                                </div>
+
+                                {isExpired && (
+                                    <a href="/dashboard/account/plans">
+                                        <button className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
+                                            Renew / Buy Plan
+                                        </button>
+                                    </a>
+                                )}
+                            </div>
+                        );
+                    })()}
                 </div>
 
                 <div className="bg-zinc-800 p-4 rounded-md shadow-inner">
