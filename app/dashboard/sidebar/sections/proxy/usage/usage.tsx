@@ -4,6 +4,7 @@ import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-i
 import { usageHook } from "./hooks/usageHook";
 import type {ApiResponse} from "~/dto/apiResponse";
 import type {Usage} from "./dto/usage"
+import { AUTH_API_LOGIN_URL} from "../../../../../../constants";
 
 const formatBytes = (bytes: number) => {
     const units = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -55,6 +56,19 @@ export function Usage() {
                         <a href="/dashboard/account/plans">
                             <button className="border border-green-500 text-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-black transition-all duration-300">
                                 Buy a Plan
+                            </button>
+                        </a>
+                    </div>
+                )}
+
+                {usage?.error_code === 401 && (
+                    <div className="flex flex-col items-center gap-4">
+                        <p className="text-gray-400 max-w-sm">
+                            Authentication expired, please re-login
+                        </p>
+                        <a href={AUTH_API_LOGIN_URL}>
+                            <button className="border border-green-500 text-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-black transition-all duration-300">
+                                re-login
                             </button>
                         </a>
                     </div>
