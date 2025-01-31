@@ -110,7 +110,7 @@ export function Usage() {
                         </div>
                     </div>
                     <p className="text-gray-300">
-                        {usage?.payload?.limits?.bandwidth?.isLimited ? (
+                        {usage?.payload?.limits?.bandwidth?.is_limited ? (
                             <>
                                 Used: {formatBytes(usage?.payload?.limits?.bandwidth?.used ?? 0).value}{" "}
                                 {formatBytes(usage?.payload?.limits?.bandwidth?.used ?? 0).unit} /{" "}
@@ -130,7 +130,7 @@ export function Usage() {
                     <p className="text-green-500 font-bold">Connections:</p>
                     <p className="text-gray-300">
                         {usage?.payload?.limits?.connections?.is_limited ? (
-                            `Max Concurrent Connections: ${usage?.payload.limits?.connections?.maxConcurrentConnections ?? "N/A"}`
+                            `Max Concurrent Connections: ${usage?.payload.limits?.connections?.max_concurrent_connections ?? "N/A"}`
                         ) : (
                             <>
                                 <FontAwesomeIcon icon={faInfinity} className="mr-2" />
@@ -144,8 +144,8 @@ export function Usage() {
                     <p className="text-green-500 font-bold">Speed:</p>
                     <p className="text-gray-300">
                         {usage?.payload?.limits?.speed?.is_limited ? (
-                            `Max Speed: ${formatBytes(usage?.payload?.limits?.speed?.max_BytesPerSecond ?? 0).value} 
-                             ${formatBytes(usage?.payload?.limits?.speed?.max_BytesPerSecond ?? 0).unit}/s`
+                            `Max Speed: ${formatBytes(usage?.payload?.limits?.speed?.max_bytes_per_second ?? 0).value} 
+                             ${formatBytes(usage?.payload?.limits?.speed?.max_bytes_per_second ?? 0).unit}/s`
                         ) : (
                             <>
                                 <FontAwesomeIcon icon={faInfinity} className="mr-2" />

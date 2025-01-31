@@ -12,17 +12,17 @@ export interface UsageLimits {
 }
 
 export interface BandwidthLimit {
-    isLimited: boolean;
+    is_limited: boolean;
     used: number;
     total: number;
 }
 
 export interface ConnectionLimit {
     is_limited: boolean;
-    maxConcurrentConnections: number;
+    max_concurrent_connections: number;
 }
 
 export interface SpeedLimit {
     is_limited: boolean;
-    max_BytesPerSecond: number;
+    max_bytes_per_second: number;
 }
