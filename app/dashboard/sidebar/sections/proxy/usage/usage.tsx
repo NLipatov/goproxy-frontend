@@ -36,16 +36,29 @@ const planExpirationDateString = (usage: ApiResponse<Usage> | null) => {
 export function Usage() {
     const { usage, error, status } = usageHook();
 
-    if ((usage?.error_code ?? 0) > 0 || error) {
-        console.log(usage)
+    if (error || (usage?.error_code ?? 0) > 0) {
+        const errorMessage = error || usage?.error_message || "Unknown error occurred.";
+
         return (
-            <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-6">
+            <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-6 text-center">
                 <h1 className="text-2xl font-bold">Your Current Plan Usage</h1>
-                <div className="flex items-center space-x-2 text-red-500">
+                <div className="flex items-center justify-center gap-2 text-red-500">
                     <FontAwesomeIcon icon={faExclamationTriangle} size="lg" />
-                    <p>{usage?.error_message ?? ""}</p>
-                    <p>{error ?? ""}</p>
+                    <p className="font-semibold">{errorMessage}</p>
                 </div>
+
+                {usage?.error_code === 403 && (
+                    <div className="flex flex-col items-center gap-4">
+                        <p className="text-gray-400 max-w-sm">
+                            You currently don’t have an active plan. Please purchase one to access proxy services.
+                        </p>
+                        <a href="/dashboard/account/plans">
+                            <button className="border border-green-500 text-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-black transition-all duration-300">
+                                Buy a Plan
+                            </button>
+                        </a>
+                    </div>
+                )}
             </div>
         );
     }
