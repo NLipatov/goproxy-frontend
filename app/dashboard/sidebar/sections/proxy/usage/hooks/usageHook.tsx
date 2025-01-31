@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import useWebSocket from "react-use-websocket";
-import { AUTH_API_LOGIN_URL, PLAN_WS_URL } from "../../../../../../../constants";
-import { type PlanResponse } from "~/dto/apiResponse";
+import { PLAN_WS_URL } from "../../../../../../../constants";
+import type {Usage} from "~/dashboard/sidebar/sections/proxy/usage/dto/usage";
+import type {ApiResponse} from "~/dto/apiResponse";
 
-export function usePlan() {
-    const [currentPlan, setCurrentPlan] = useState<PlanResponse | null>(null);
+export function usageHook() {
+    const [usage, setUsage] = useState<ApiResponse<Usage> | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [lastReceived, setLastReceived] = useState<Date | null>(null);
 
@@ -19,16 +20,11 @@ export function usePlan() {
             try {
                 const data = JSON.parse(lastMessage.data);
 
-                if (data.errorCode === 401) {
-                    window.location.href = AUTH_API_LOGIN_URL;
-                    return;
-                }
-
                 if (data.error) {
                     setError(data.error);
                 } else {
                     setError(null);
-                    setCurrentPlan(data);
+                    setUsage(data);
                 }
                 setLastReceived(new Date());
             } catch (err) {
@@ -51,5 +47,5 @@ export function usePlan() {
 
     const status = getStatus();
 
-    return { currentPlan, error, status, lastReceived };
+    return { usage: usage, error, status, lastReceived };
 }
