@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useFetchPlans } from "~/hooks/useFetchPlans";
 import type { Plan } from "~/dto/plan";
-import { PaymentProviders } from "./paymentProviders";
 import { PlanCard } from "~/sharedComponent/PlanCard";
 import {
     ACCOUNTING_API_BASE_URL,
@@ -9,6 +8,7 @@ import {
 } from "../../../../../../constants";
 import { Button } from "~/sharedComponent/Button";
 import { usageHook } from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
+import {PaymentSelection} from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
 
 export function Plans() {
     const { plans, loading, error } = useFetchPlans();
@@ -63,11 +63,8 @@ export function Plans() {
 
             <div className="flex flex-wrap justify-center gap-8 container mx-auto px-6">
                 {plans.map((plan) => {
-                    console.log(`${plan.name} is active: ${usage?.payload?.name === plan.name}`)
-                    console.log(usage)
                     const isActive =
                         usage?.payload?.name === plan.name;
-                    console.log(isActive);
 
                     return (
                         <div
@@ -96,7 +93,7 @@ export function Plans() {
                     <h3 className="text-2xl font-bold text-green-500 mb-2">
                         Choose Payment Provider
                     </h3>
-                    <PaymentProviders onProviderSelect={handleProviderSelect} />
+                    <PaymentSelection />
                 </div>
             )}
         </section>
