@@ -9,7 +9,7 @@ import { Firefox } from "~/dashboard/sidebar/sections/start/firefox/firefox";
 import { IOS } from "~/dashboard/sidebar/sections/start/ios/ios";
 import { LinuxProxySetup } from "~/dashboard/sidebar/sections/start/linux/linux";
 import { WindowsProxySetup } from "~/dashboard/sidebar/sections/start/windows/windows";
-import { Plans } from "~/dashboard/sidebar/sections/account/plans/plans";
+import { Plans } from "~/dashboard/sidebar/sections/proxy/plans/plans";
 
 const contentMap: Record<string, Record<string, React.ReactNode>> = {
     start: {
@@ -20,11 +20,11 @@ const contentMap: Record<string, Record<string, React.ReactNode>> = {
         linux: <LinuxProxySetup />,
     },
     proxy: {
+        plans: <Plans />,
         usage: <Usage />,
         credentials: <Credentials />,
     },
     account: {
-        plans: <Plans />,
         billing: <div>Billing info</div>,
         settings: <div>Account settings</div>,
     },
@@ -35,7 +35,7 @@ const contentMap: Record<string, Record<string, React.ReactNode>> = {
 };
 
 export function Dashboard() {
-    const { section = "start", tab = "google-chrome" } = useParams();
+    const { section = "proxy", tab = "plans" } = useParams();
     const navigate = useNavigate();
     const data = contentMap[section];
     const content = data ? data[tab] || <div>Tab not found</div> : <div>Section not found</div>;

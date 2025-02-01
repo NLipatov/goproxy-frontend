@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import headerStyles from "./header.module.css";
 import { FaGithub } from "react-icons/fa";
 import {AUTH_API_BASE_URL} from "../../../constants";
+import {useAuth} from "~/hooks/useAuth";
+import {Button} from "~/sharedComponent/Button";
 
 export function Header() {
+    const { login } = useAuth();
     const [user, setUser] = useState<{ name: string; picture: string } | null>(null);
 
     useEffect(() => {
@@ -70,12 +73,7 @@ export function Header() {
                             <span className="text-white">{user.name}</span>
                         </a>
                     ) : (
-                        <a
-                            href={`${AUTH_API_BASE_URL}/auth/login`}
-                            className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300"
-                        >
-                            Log in
-                        </a>
+                        <Button onClick={login} label={"Login"}/>
                     )}
                 </div>
             </header>

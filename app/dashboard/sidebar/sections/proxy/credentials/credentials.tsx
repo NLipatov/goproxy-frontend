@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AUTH_API_BASE_URL } from "../../../../../../constants";
 import { faCopy, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "~/sharedComponent/Button";
 
 export function Credentials() {
     const [proxyCredentials, setProxyCredentials] = useState({ username: "", password: "" });
@@ -94,12 +95,9 @@ export function Credentials() {
                 </div>
             )}
 
-            <button
-                onClick={handleGeneratePassword}
-                className="w-full bg-green-500 hover:bg-green-600 text-black font-semibold py-2 px-4 rounded transition duration-300"
-            >
-                Generate new credentials
-            </button>
+            <div className="mt-6 flex justify-center">
+                <Button onClick={handleGeneratePassword} label="Generate new credentials" />
+            </div>
         </div>
     );
 }

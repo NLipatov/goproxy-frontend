@@ -18,6 +18,7 @@ export const SECTIONS = [
         label: "Proxy",
         icon: FaServer,
         tabs: [
+            { slug: "plans", label: "Plans" },
             { slug: "usage", label: "Usage" },
             { slug: "credentials", label: "Credentials" },
         ],
@@ -27,7 +28,6 @@ export const SECTIONS = [
         label: "Account",
         icon: FaUser,
         tabs: [
-            { slug: "plans", label: "Plans" },
             { slug: "billing", label: "Billing" },
             { slug: "settings", label: "Settings" },
         ],

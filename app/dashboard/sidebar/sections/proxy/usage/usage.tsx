@@ -4,7 +4,9 @@ import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-i
 import { usageHook } from "./hooks/usageHook";
 import type {ApiResponse} from "~/dto/apiResponse";
 import type {Usage} from "./dto/usage"
-import { AUTH_API_LOGIN_URL} from "../../../../../../constants";
+import {Button} from "~/sharedComponent/Button";
+import {useAuth} from "~/hooks/useAuth";
+import {useNavigate} from "react-router-dom";
 
 const formatBytes = (bytes: number) => {
     const units = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -36,6 +38,8 @@ const planExpirationDateString = (usage: ApiResponse<Usage> | null) => {
 
 export function Usage() {
     const { usage, error, status } = usageHook();
+    const navigate = useNavigate();
+    const { login } = useAuth()
 
     if (error || (usage?.error_code ?? 0) > 0) {
         const errorMessage = error || usage?.error_message || "Unknown error occurred.";
@@ -53,10 +57,8 @@ export function Usage() {
                         <p className="text-gray-400 max-w-sm">
                             You currently don’t have an active plan. Please purchase one to access proxy services.
                         </p>
-                        <a href="/dashboard/account/plans">
-                            <button className="border border-green-500 text-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-black transition-all duration-300">
-                                Buy a Plan
-                            </button>
+                        <a href="/dashboard/proxy/plans">
+                            <Button label={"Buy a Plan"} />
                         </a>
                     </div>
                 )}
@@ -66,11 +68,7 @@ export function Usage() {
                         <p className="text-gray-400 max-w-sm">
                             Authentication expired, please re-login
                         </p>
-                        <a href={AUTH_API_LOGIN_URL}>
-                            <button className="border border-green-500 text-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-black transition-all duration-300">
-                                re-login
-                            </button>
-                        </a>
+                        <Button onClick={login} label={"Login"} />
                     </div>
                 )}
             </div>
@@ -124,11 +122,7 @@ export function Usage() {
                                 </div>
 
                                 {isExpired && (
-                                    <a href="/dashboard/account/plans">
-                                        <button className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300">
-                                            Renew / Buy Plan
-                                        </button>
-                                    </a>
+                                    <Button onClick={() => navigate("/dashboard/proxy/plans")} label={"Renew / Buy Plan"} />
                                 )}
                             </div>
                         );

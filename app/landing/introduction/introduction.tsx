@@ -9,6 +9,8 @@ import {
     FaLinux,
     FaWindows,
 } from "react-icons/fa";
+import {Button} from "~/sharedComponent/Button";
+import {useAuth} from "~/hooks/useAuth";
 
 const messages = [
     "values you",
@@ -30,6 +32,7 @@ const platforms = [
 
 export function Introduction() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { login } = useAuth();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -61,13 +64,11 @@ export function Introduction() {
                     </motion.div>
                 </AnimatePresence>
             </div>
-            <p className="text-gray-400 mt-6">
+            <p className="text-gray-400 mt-6 mb-6">
                 Transparent, open-source, and privacy-first approach.
             </p>
 
-            <button className="border border-green-500 text-green-500 px-4 py-2 rounded hover:bg-green-500 hover:text-black transition-all duration-300 m-2">
-                Get Started
-            </button>
+            <Button onClick={login} label={"Get Started"}/>
 
             <div className="mt-10">
                 <h2 className="text-xl font-bold text-gray-300 mb-4">
