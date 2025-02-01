@@ -7,12 +7,14 @@ import {
     ACCOUNTING_API_BASE_URL,
     ACCOUNTING_API_POST_INVOICES_URL,
 } from "../../../../../../constants";
-import {Button} from "~/sharedComponent/Button";
+import { Button } from "~/sharedComponent/Button";
+import { usageHook } from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
 
 export function Plans() {
     const { plans, loading, error } = useFetchPlans();
     const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
     const [showProviders, setShowProviders] = useState(false);
+    const { usage } = usageHook();
 
     const handleSelectPlan = (plan: Plan) => {
         setSelectedPlan(plan);
@@ -55,24 +57,45 @@ export function Plans() {
     return (
         <section className="py-16 flex flex-col items-center">
             <h2 className="text-4xl font-bold text-white mb-6">Our Plans</h2>
-            <p className="text-gray-400 mb-12">Choose the plan that suits your needs best.</p>
+            <p className="text-gray-400 mb-12">
+                Choose the plan that suits your needs best.
+            </p>
 
             <div className="flex flex-wrap justify-center gap-8 container mx-auto px-6">
-                {plans.map((plan) => (
-                    <div
-                        key={plan.id}
-                        className="bg-zinc-800 rounded-lg shadow-lg p-6 text-white flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300 max-w-xs"
-                    >
-                        <PlanCard plan={plan} />
+                {plans.map((plan) => {
+                    console.log(`${plan.name} is active: ${usage?.payload?.name === plan.name}`)
+                    console.log(usage)
+                    const isActive =
+                        usage?.payload?.name === plan.name;
+                    console.log(isActive);
 
-                        <Button onClick={() => handleSelectPlan(plan)}label={"Select"} />
-                    </div>
-                ))}
+                    return (
+                        <div
+                            key={plan.name}
+                            className={`relative rounded-lg p-6 text-white flex flex-col justify-between max-w-xs transition-shadow duration-300 ${
+                                isActive
+                                    ? "bg-zinc-900 border border-green-500 shadow-xl"
+                                    : "bg-zinc-800 shadow-lg hover:shadow-2xl"
+                            }`}
+                        >
+                            {isActive && (
+                                <span className="absolute top-2 right-2 text-xs text-green-500 font-medium border border-green-500 rounded-full px-2 py-1">
+                                  Current Plan
+                                </span>
+                            )}
+                            <PlanCard plan={plan} />
+
+                            <Button onClick={() => handleSelectPlan(plan)} label="Select" />
+                        </div>
+                    );
+                })}
             </div>
 
             {showProviders && (
                 <div className="mt-8 text-center">
-                    <h3 className="text-2xl font-bold text-green-500 mb-2">Choose Payment Provider</h3>
+                    <h3 className="text-2xl font-bold text-green-500 mb-2">
+                        Choose Payment Provider
+                    </h3>
                     <PaymentProviders onProviderSelect={handleProviderSelect} />
                 </div>
             )}
