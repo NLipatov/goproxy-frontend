@@ -2,52 +2,26 @@ import React, { useState } from "react";
 import { useFetchPlans } from "~/hooks/useFetchPlans";
 import type { Plan } from "~/dto/plan";
 import { PlanCard } from "~/sharedComponent/PlanCard";
-import {
-    ACCOUNTING_API_BASE_URL,
-    ACCOUNTING_API_POST_INVOICES_URL,
-} from "../../../../../../constants";
 import { Button } from "~/sharedComponent/Button";
 import { usageHook } from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
-import {PaymentSelection} from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
+import { PaymentSelection } from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
+import { useFreeBilling } from "./paymentProviders/useFreePlanBilling";
 
 export function Plans() {
     const { plans, loading, error } = useFetchPlans();
     const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
     const [showProviders, setShowProviders] = useState(false);
     const { usage } = usageHook();
+    const { activateFreePlan, loading: freePlanLoading } = useFreeBilling();
 
     const handleSelectPlan = (plan: Plan) => {
-        setSelectedPlan(plan);
-        setShowProviders(true);
-    };
-
-    const handleProviderSelect = async (provider: string) => {
-        if (!selectedPlan) return;
-
-        try {
-            const response = await fetch(
-                `${ACCOUNTING_API_BASE_URL}/${ACCOUNTING_API_POST_INVOICES_URL}`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "include",
-                    body: JSON.stringify({
-                        plan_id: selectedPlan.id,
-                        currency: selectedPlan.price.currency,
-                    }),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Payment request failed: ${response.statusText}`);
-            }
-
-            alert("Invoice created successfully!");
-        } catch {
-            alert("Failed to process payment. Please try again.");
-        } finally {
-            setSelectedPlan(null);
-            setShowProviders(false);
+        if (plan.price.cents === 0) {
+            activateFreePlan(plan.id)
+                .then(() => console.log(`Free plan ${plan.name} activated successfully`))
+                .catch(err => console.error(`Error activating free plan: ${err.message}`));
+        } else {
+            setSelectedPlan(plan);
+            setShowProviders(true);
         }
     };
 
@@ -63,8 +37,8 @@ export function Plans() {
 
             <div className="flex flex-wrap justify-center gap-8 container mx-auto px-6">
                 {plans.map((plan) => {
-                    const isActive =
-                        usage?.payload?.name === plan.name;
+                    const isActive = usage?.payload?.name === plan.name;
+                    const isFreePlan = plan.price.cents === 0;
 
                     return (
                         <div
@@ -82,13 +56,16 @@ export function Plans() {
                             )}
                             <PlanCard plan={plan} />
 
-                            <Button onClick={() => handleSelectPlan(plan)} label="Select" />
+                            <Button
+                                onClick={() => handleSelectPlan(plan)}
+                                label={isFreePlan ? (freePlanLoading ? "Activating..." : "Activate Free Plan") : "Select"}
+                            />
                         </div>
                     );
                 })}
             </div>
 
-            {showProviders && (
+            {showProviders && selectedPlan && (
                 <div className="mt-8 text-center">
                     <h3 className="text-2xl font-bold text-green-500 mb-2">
                         Choose Payment Provider
