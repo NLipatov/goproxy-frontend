@@ -23,7 +23,7 @@ export function FreePlanHandler({planId}: FreePlanHandlerProps) {
             {error && (
                 <div className="w-full flex flex-col items-center">
                     <AlertBox
-                        type="warning"
+                        type="error"
                         message={error.message ?? "Not available at the moment"}
                     />
                     {error.code === 401 && <Button label="Re-login" onClick={login} />}
