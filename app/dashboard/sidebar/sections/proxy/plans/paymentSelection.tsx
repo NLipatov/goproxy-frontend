@@ -1,6 +1,6 @@
 import { usePaymentProviders } from "./paymentProviders/usePaymentsProviders";
 import { Button } from "~/sharedComponent/Button";
-import { PaidPlanHandler } from "~/dashboard/sidebar/sections/proxy/plans/paymentProviders/cryptoCloud/cryptoCloudHandler";
+import { CryptoCloudHandler } from "~/dashboard/sidebar/sections/proxy/plans/paymentProviders/cryptoCloud/cryptoCloudHandler";
 
 interface PaymentSelectionProps {
     planId: number;
@@ -27,7 +27,7 @@ export function PaymentSelection({ planId }: PaymentSelectionProps) {
                     {getPaymentOptions(selectedType).map((provider) => (
                         <div key={provider.id} className="p-4 bg-zinc-800 rounded-lg flex items-center justify-between">
                             <span>{provider.name}</span>
-                            <PaidPlanHandler planId={planId} />
+                            <CryptoCloudHandler planId={planId} />
                         </div>
                     ))}
                 </div>

@@ -5,7 +5,7 @@ import {PlanCard} from "~/sharedComponent/PlanCard";
 import {Button} from "~/sharedComponent/Button";
 import {usageHook} from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
 import {PaymentSelection} from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
-import {FreePlanHandler} from "./paymentProviders/FreePlanBilling/FreePlanHandler";
+import {FreePlanHandler} from "./paymentProviders/FreePlanBilling/freePlanHandler";
 import {AlertBox} from "~/sharedComponent/AlertBox";
 
 export function Plans() {

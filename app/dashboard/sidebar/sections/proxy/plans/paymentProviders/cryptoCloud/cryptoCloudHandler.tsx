@@ -7,7 +7,7 @@ interface PaidPlanHandlerProps {
     planId: number;
 }
 
-export function PaidPlanHandler({ planId }: PaidPlanHandlerProps) {
+export function CryptoCloudHandler({ planId }: PaidPlanHandlerProps) {
     const { purchasePlan, loading, error, paymentLink, setError } = useCryptoCloudBilling();
     const currency = getUserCurrency();
 
