@@ -6,7 +6,7 @@ interface ButtonProps {
     className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({onClick, label = "Log in", className = ""}) => {
+export const Button: React.FC<ButtonProps> = ({onClick, label = "Select", className = ""}) => {
     return (
         <div className={"flex justify-center w-full"}>
             <a
