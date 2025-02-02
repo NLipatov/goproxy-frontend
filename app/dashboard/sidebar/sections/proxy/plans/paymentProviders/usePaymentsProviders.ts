@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { paymentProviders, type PaymentProvider, type PaymentProviderType } from "./paymentProviders"; // 'type' перед интерфейсами ускоряет компиляцию
+import { paymentProviders, type PaymentProvider, type PaymentProviderType } from "./paymentProviders";
 
 export function usePaymentProviders() {
     const [selectedType, setSelectedType] = useState<PaymentProviderType | null>(null);

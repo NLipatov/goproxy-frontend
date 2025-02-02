@@ -1,4 +1,4 @@
-export type PaymentProviderType = "fiat" | "crypto";
+export type PaymentProviderType = "bank" | "crypto";
 
 export interface PaymentProvider {
     id: string;
