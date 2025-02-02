@@ -1,10 +1,13 @@
 import { usePaymentProviders } from "./paymentProviders/usePaymentsProviders";
-import { useCryptoCloudBilling } from "./paymentProviders/useCryptoCloudBilling";
 import { Button } from "~/sharedComponent/Button";
+import { PaidPlanHandler } from "~/dashboard/sidebar/sections/proxy/plans/paymentProviders/cryptoCloud/cryptoCloudHandler";
 
-export function PaymentSelection() {
+interface PaymentSelectionProps {
+    planId: number;
+}
+
+export function PaymentSelection({ planId }: PaymentSelectionProps) {
     const { selectedType, setSelectedType, getPaymentOptions } = usePaymentProviders();
-    const { createInvoice, loading } = useCryptoCloudBilling();
 
     return (
         <div className="p-6 bg-zinc-900 text-white rounded-lg shadow-md max-w-lg mx-auto">
@@ -24,13 +27,11 @@ export function PaymentSelection() {
                     {getPaymentOptions(selectedType).map((provider) => (
                         <div key={provider.id} className="p-4 bg-zinc-800 rounded-lg flex items-center justify-between">
                             <span>{provider.name}</span>
-                            <Button onClick={() => createInvoice(1, "USD")} label="Select" />
+                            <PaidPlanHandler planId={planId} />
                         </div>
                     ))}
                 </div>
             )}
-
-            {loading && <p className="text-gray-400 mt-4">Processing payment...</p>}
         </div>
     );
 }

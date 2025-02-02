@@ -1,15 +1,15 @@
-import {useFreeBilling} from "./useFreePlanBilling";
-import {Button} from "~/sharedComponent/Button";
-import {useAuth} from "~/hooks/useAuth";
-import {AlertBox} from "~/sharedComponent/AlertBox";
+import { useFreeBilling } from "./useFreePlanBilling";
+import { Button } from "~/sharedComponent/Button";
+import { useAuth } from "~/hooks/useAuth";
+import { AlertBox } from "~/sharedComponent/AlertBox";
 
 interface FreePlanHandlerProps {
     planId: number;
 }
 
-export function FreePlanHandler({planId}: FreePlanHandlerProps) {
-    const {activateFreePlan, loading, error, setError} = useFreeBilling();
-    const {login} = useAuth()
+export function FreePlanHandler({ planId }: FreePlanHandlerProps) {
+    const { activateFreePlan, loading, error, setError } = useFreeBilling();
+    const { login } = useAuth();
 
     const handleActivation = async () => {
         if (loading) return;
@@ -17,9 +17,8 @@ export function FreePlanHandler({planId}: FreePlanHandlerProps) {
         await activateFreePlan(planId);
     };
 
-
     return (
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-4 w-full">
             {error && (
                 <div className="w-full flex flex-col items-center">
                     <AlertBox
@@ -30,7 +29,9 @@ export function FreePlanHandler({planId}: FreePlanHandlerProps) {
                 </div>
             )}
 
-            {!error && <Button label={loading ? "Activating..." : "Select"} onClick={handleActivation} />}
+            <div className="flex w-full justify-center">
+                {!error && <Button label={loading ? "Activating..." : "Select"} onClick={handleActivation} className="w-full min-h-[48px]" />}
+            </div>
         </div>
     );
 }

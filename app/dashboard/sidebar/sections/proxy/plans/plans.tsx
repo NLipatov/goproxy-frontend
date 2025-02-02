@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useFetchPlans } from "~/hooks/useFetchPlans";
-import type { Plan } from "~/dto/plan";
-import { PlanCard } from "~/sharedComponent/PlanCard";
-import { Button } from "~/sharedComponent/Button";
-import { usageHook } from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
-import { PaymentSelection } from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
-import { FreePlanHandler } from "./paymentProviders/FreePlanBilling/FreePlanHandler";
+import React, {useState} from "react";
+import {useFetchPlans} from "~/hooks/useFetchPlans";
+import type {Plan} from "~/dto/plan";
+import {PlanCard} from "~/sharedComponent/PlanCard";
+import {Button} from "~/sharedComponent/Button";
+import {usageHook} from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
+import {PaymentSelection} from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
+import {FreePlanHandler} from "./paymentProviders/FreePlanBilling/FreePlanHandler";
 import {AlertBox} from "~/sharedComponent/AlertBox";
 
 export function Plans() {
-    const { plans, loading, error } = useFetchPlans();
+    const {plans, loading, error} = useFetchPlans();
     const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
     const [showProviders, setShowProviders] = useState(false);
-    const { usage } = usageHook();
+    const {usage} = usageHook();
 
     const handleSelectPlan = (plan: Plan) => {
         if (plan.price.cents === 0) {
@@ -24,7 +24,7 @@ export function Plans() {
     };
 
     if (loading) return <div className="text-gray-400">Loading...</div>;
-    if (error) return <AlertBox type="error" message={`Error fetching plans: ${error}`} />;
+    if (error) return <AlertBox type="error" message={`Error fetching plans: ${error}`}/>;
 
     return (
         <section className="py-16 flex flex-col items-center">
@@ -48,14 +48,15 @@ export function Plans() {
                             }`}
                         >
                             {isActive && (
-                                <span className="absolute top-2 right-2 text-xs text-green-500 font-medium border border-green-500 rounded-full px-2 py-1">
+                                <span
+                                    className="absolute top-2 right-2 text-xs text-green-500 font-medium border border-green-500 rounded-full px-2 py-1">
                                   Current Plan
                                 </span>
                             )}
-                            <PlanCard plan={plan} />
+                            <PlanCard plan={plan}/>
 
                             {isFreePlan ? (
-                                <FreePlanHandler planId={plan.id} />
+                                <FreePlanHandler planId={plan.id}/>
                             ) : (
                                 <Button
                                     onClick={() => handleSelectPlan(plan)}
@@ -72,7 +73,7 @@ export function Plans() {
                     <h3 className="text-2xl font-bold text-green-500 mb-2">
                         Choose Payment Provider
                     </h3>
-                    <PaymentSelection />
+                    <PaymentSelection planId={selectedPlan.id}/>
                 </div>
             )}
         </section>
