@@ -20,7 +20,7 @@ export function PaymentSelection({ planId }: PaymentSelectionProps) {
     };
 
     return (
-        <div className="p-6 bg-zinc-900 text-white rounded-lg shadow-md max-w-md mx-auto border border-zinc-800 space-y-4">
+        <div className="p-6 bg-zinc-900 text-white rounded-lg shadow-md max-w-fit mx-auto border border-zinc-800 space-y-4">
             <div className="flex justify-center space-x-6 text-gray-400 text-lg border-b border-gray-700 pb-2 mb-4">
                 {availableMethods.map((method) => (
                     <button
