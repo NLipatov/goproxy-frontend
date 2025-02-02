@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ApiResponse } from "~/dto/apiResponse";
-import { FREE_PLAN_BILLING_API, FREE_PLAN_BILLING_BILLING_API_CREATE_INVOICE_URL } from "../../../../../../../constants";
+import { FREE_PLAN_BILLING_API, FREE_PLAN_BILLING_BILLING_API_CREATE_INVOICE_URL } from "../../../../../../../../constants";
 
 interface InvoiceResponse {
     plan_assigned: boolean;
