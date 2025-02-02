@@ -3,6 +3,7 @@ import { AUTH_API_BASE_URL } from "../../../../../../constants";
 import { faCopy, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "~/sharedComponent/Button";
+import {AlertBox} from "~/sharedComponent/AlertBox";
 
 export function Credentials() {
     const [proxyCredentials, setProxyCredentials] = useState({ username: "", password: "" });
@@ -48,12 +49,9 @@ export function Credentials() {
 
     return (
         <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-4">
-            <div className="flex items-center bg-zinc-800 p-3 rounded-md text-gray-400 text-sm shadow-inner space-x-2">
-                <FontAwesomeIcon icon={faExclamationTriangle} className="text-yellow-400" />
-                <p>
-                    We do not store your credentials. Please save them after generation. You can regenerate them at any time.
-                </p>
-            </div>
+            <AlertBox
+                type={"warning"}
+                message={"We do not store your credentials. Please save them after generation. You can regenerate them at any time."}/>
 
             {proxyCredentials.password && (
                 <div className="bg-zinc-800 p-4 rounded-md shadow-inner space-y-2">

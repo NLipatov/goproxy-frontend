@@ -5,20 +5,18 @@ import { PlanCard } from "~/sharedComponent/PlanCard";
 import { Button } from "~/sharedComponent/Button";
 import { usageHook } from "~/dashboard/sidebar/sections/proxy/usage/hooks/usageHook";
 import { PaymentSelection } from "~/dashboard/sidebar/sections/proxy/plans/paymentSelection";
-import { useFreeBilling } from "./paymentProviders/useFreePlanBilling";
+import { FreePlanHandler } from "./paymentProviders/FreePlanHandler";
+import {AlertBox} from "~/sharedComponent/AlertBox";
 
 export function Plans() {
     const { plans, loading, error } = useFetchPlans();
     const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
     const [showProviders, setShowProviders] = useState(false);
     const { usage } = usageHook();
-    const { activateFreePlan, loading: freePlanLoading } = useFreeBilling();
 
     const handleSelectPlan = (plan: Plan) => {
         if (plan.price.cents === 0) {
-            activateFreePlan(plan.id)
-                .then(() => console.log(`Free plan ${plan.name} activated successfully`))
-                .catch(err => console.error(`Error activating free plan: ${err.message}`));
+            setSelectedPlan(plan);
         } else {
             setSelectedPlan(plan);
             setShowProviders(true);
@@ -26,7 +24,7 @@ export function Plans() {
     };
 
     if (loading) return <div className="text-gray-400">Loading...</div>;
-    if (error) return <div className="text-red-500">Error: {error}</div>;
+    if (error) return <AlertBox type="error" message={`Error fetching plans: ${error}`} />;
 
     return (
         <section className="py-16 flex flex-col items-center">
@@ -56,10 +54,14 @@ export function Plans() {
                             )}
                             <PlanCard plan={plan} />
 
-                            <Button
-                                onClick={() => handleSelectPlan(plan)}
-                                label={isFreePlan ? (freePlanLoading ? "Activating..." : "Activate Free Plan") : "Select"}
-                            />
+                            {isFreePlan ? (
+                                <FreePlanHandler planId={plan.id} />
+                            ) : (
+                                <Button
+                                    onClick={() => handleSelectPlan(plan)}
+                                    label="Select"
+                                />
+                            )}
                         </div>
                     );
                 })}

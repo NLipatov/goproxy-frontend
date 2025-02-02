@@ -1,12 +1,13 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle, faInfinity } from "@fortawesome/free-solid-svg-icons";
-import { usageHook } from "./hooks/usageHook";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faExclamationTriangle, faInfinity} from "@fortawesome/free-solid-svg-icons";
+import {usageHook} from "./hooks/usageHook";
 import type {ApiResponse} from "~/dto/apiResponse";
 import type {Usage} from "./dto/usage"
 import {Button} from "~/sharedComponent/Button";
 import {useAuth} from "~/hooks/useAuth";
 import {useNavigate} from "react-router-dom";
+import {AlertBox} from "~/sharedComponent/AlertBox";
 
 const formatBytes = (bytes: number) => {
     const units = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -15,7 +16,7 @@ const formatBytes = (bytes: number) => {
         bytes /= 1024;
         i++;
     }
-    return { value: bytes.toFixed(2), unit: units[i] };
+    return {value: bytes.toFixed(2), unit: units[i]};
 };
 
 const calculateProgress = (used: number, total: number) => {
@@ -37,40 +38,41 @@ const planExpirationDateString = (usage: ApiResponse<Usage> | null) => {
 }
 
 export function Usage() {
-    const { usage, error, status } = usageHook();
+    const {usage, error, status} = usageHook();
     const navigate = useNavigate();
-    const { login } = useAuth()
+    const {login} = useAuth()
 
     if (error || (usage?.error_code ?? 0) > 0) {
         const errorMessage = error || usage?.error_message || "Unknown error occurred.";
 
         return (
             <div className="bg-zinc-900 text-white p-6 rounded-lg shadow-lg max-w-xl mx-auto space-y-6 text-center">
-                <h1 className="text-2xl font-bold">Your Current Plan Usage</h1>
-                <div className="flex items-center justify-center gap-2 text-red-500">
-                    <FontAwesomeIcon icon={faExclamationTriangle} size="lg" />
-                    <p className="font-semibold">{errorMessage}</p>
-                </div>
-
-                {usage?.error_code === 403 && (
-                    <div className="flex flex-col items-center gap-4">
-                        <p className="text-gray-400 max-w-sm">
-                            You currently don’t have an active plan. Please purchase one to access proxy services.
-                        </p>
-                        <a href="/dashboard/proxy/plans">
-                            <Button label={"Buy a Plan"} />
-                        </a>
-                    </div>
-                )}
-
-                {usage?.error_code === 401 && (
-                    <div className="flex flex-col items-center gap-4">
-                        <p className="text-gray-400 max-w-sm">
-                            Authentication expired, please re-login
-                        </p>
-                        <Button onClick={login} label={"Login"} />
-                    </div>
-                )}
+                {(() => {
+                    switch (usage?.error_code) {
+                        case 401:
+                            return (
+                                <div className="flex flex-col items-center gap-4">
+                                    <AlertBox type={"warning"} message={"Authentication expired, please re-login."}/>
+                                    <Button onClick={login} label={"Login"}/>
+                                </div>
+                            )
+                        case 403:
+                            return (
+                                <div className="flex flex-col items-center gap-4">
+                                    <AlertBox type={"warning"}
+                                              message={"You currently don’t have an active plan. Please purchase one to access proxy services."}/>
+                                    <Button onClick={() => navigate("/dashboard/proxy/plans")} label={"Buy a Plan"}/>
+                                </div>
+                            )
+                        default:
+                            return (
+                                <div className="flex items-center justify-center gap-2 text-red-500">
+                                    <FontAwesomeIcon icon={faExclamationTriangle} size="lg"/>
+                                    <p className="font-semibold">{errorMessage}</p>
+                                </div>
+                            )
+                    }
+                })()}
             </div>
         );
     }
@@ -110,19 +112,23 @@ export function Usage() {
                     <p className="text-green-500 font-bold mb-2">Expires at:</p>
                     {(() => {
                         const planExpirationDate = planExpirationDateString(usage);
-                        const formattedDate = planExpirationDate.toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" });
+                        const formattedDate = planExpirationDate.toLocaleString(undefined, {
+                            dateStyle: "short",
+                            timeStyle: "short"
+                        });
                         const isExpired = planExpirationDate <= new Date();
 
                         return (
                             <div className={`flex flex-col gap-2 ${isExpired ? "text-red-500" : "text-gray-300"}`}>
                                 <div className="flex items-center gap-2">
-                                    {isExpired && <FontAwesomeIcon icon={faExclamationTriangle} size="lg" />}
+                                    {isExpired && <FontAwesomeIcon icon={faExclamationTriangle} size="lg"/>}
                                     <p className="font-semibold">{isExpired ? "Expired" : formattedDate}</p>
                                     {isExpired && <p className="text-gray-400">{formattedDate}</p>}
                                 </div>
 
                                 {isExpired && (
-                                    <Button onClick={() => navigate("/dashboard/proxy/plans")} label={"Renew / Buy Plan"} />
+                                    <Button onClick={() => navigate("/dashboard/proxy/plans")}
+                                            label={"Renew / Buy Plan"}/>
                                 )}
                             </div>
                         );
@@ -162,7 +168,7 @@ export function Usage() {
                             </>
                         ) : (
                             <>
-                                <FontAwesomeIcon icon={faInfinity} className="mr-2" />
+                                <FontAwesomeIcon icon={faInfinity} className="mr-2"/>
                                 Unlimited
                             </>
                         )}
@@ -176,7 +182,7 @@ export function Usage() {
                             `Max Concurrent Connections: ${usage?.payload.limits?.connections?.max_concurrent_connections ?? "N/A"}`
                         ) : (
                             <>
-                                <FontAwesomeIcon icon={faInfinity} className="mr-2" />
+                                <FontAwesomeIcon icon={faInfinity} className="mr-2"/>
                                 Unlimited
                             </>
                         )}
@@ -191,7 +197,7 @@ export function Usage() {
                              ${formatBytes(usage?.payload?.limits?.speed?.max_bytes_per_second ?? 0).unit}/s`
                         ) : (
                             <>
-                                <FontAwesomeIcon icon={faInfinity} className="mr-2" />
+                                <FontAwesomeIcon icon={faInfinity} className="mr-2"/>
                                 Unlimited
                             </>
                         )}
