@@ -28,13 +28,19 @@ export function useFreeBilling() {
         });
 
         const result: ApiResponse<InvoiceResponse> = await response.json();
-        console.log(result);
 
         if (result.error_code !== null && result.error_code > 0) {
-            setError({
-                code: result.error_code,
-                message: result.error_message
-            })
+            if (result.error_code === 401) {
+                setError({
+                    code: result.error_code,
+                    message: "session expired, please re-login"
+                });
+            } else {
+                setError({
+                    code: result.error_code,
+                    message: result.error_message
+                })
+            }
         }
 
         setLoading(false);
