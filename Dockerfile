@@ -18,5 +18,9 @@ FROM node:23-alpine
 COPY ./package.json package-lock.json /app/
 COPY --from=production-dependencies-env /app/node_modules /app/node_modules
 COPY --from=build-env /app/build /app/build
+COPY config.template.js /app/config.template.js
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 WORKDIR /app
+RUN chmod +x docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["npm", "run", "start"]

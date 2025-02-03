@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: ./
+    image: goproxy-frontend
+    ports:
+      - "5173:3000"
+    environment:
+      VITE_AUTH_API_BASE_URL: "http://localhost:3030"
+      VITE_PLANS_WS_URL: "ws://localhost:3031/plans"
+      VITE_ACCOUNTING_API_BASE_URL: "http://localhost:9090"
+      VITE_ACCOUNTING_API_GET_OFFERS_URL: "offers"
+      VITE_ACCOUNTING_API_GET_INVOICES_URL: "invoices"
+      VITE_ACCOUNTING_API_POST_INVOICES_URL: "invoices"
+      VITE_ACCOUNTING_API_GET_PlANS_URL: "plans"
+      VITE_PLANS_API_BASE_URL: "http://localhost:9090"
+      VITE_PLANS_API_GET_PLANS_URL: "plans"
+      VITE_BILLING_API_BASE_URL: "http://localhost:4040"
+      VITE_BILLING_API_BASE_GET_PLAN_PRICES_URL: "plans/prices?plan_id="
+      VITE_CRYPTO_CLOUD_BILLING_API: "http://localhost:2020"
+      VITE_CRYPTO_CLOUD_BILLING_API_CREATE_INVOICE_URL: "invoices"
+      VITE_FREE_PLAN_BILLING_API: "http://localhost:2021"
+      VITE_FREE_PLAN_BILLING_BILLING_API_CREATE_INVOICE_URL: "invoices"
