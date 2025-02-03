@@ -66,12 +66,12 @@ jobs:
         env:
           VERSION: ${{ env.VERSION }}
         run: |
-          docker build -t yourdockerhubusername/your-frontend:${VERSION} .
-          docker tag yourdockerhubusername/your-frontend:${VERSION} yourdockerhubusername/your-frontend:latest
+          docker build -t nlipatov/goproxy-frontend:${VERSION} .
+          docker tag nlipatov/goproxy-frontend:${VERSION} nlipatov/goproxy-frontend:latest
 
       - name: Push Docker Images
         env:
           VERSION: ${{ env.VERSION }}
         run: |
-          docker push yourdockerhubusername/your-frontend:${VERSION}
-          docker push yourdockerhubusername/your-frontend:latest
+          docker push nlipatov/goproxy-frontend:${VERSION}
+          docker push nlipatov/goproxy-frontend:latest
